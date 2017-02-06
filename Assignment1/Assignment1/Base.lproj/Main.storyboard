@@ -75,7 +75,7 @@
                                 <rect key="frame" x="0.0" y="20" width="667" height="306"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TMQ-hd-IZL" userLabel="Green">
-                                        <rect key="frame" x="334" y="0.0" width="333" height="306"/>
+                                        <rect key="frame" x="333.5" y="0.0" width="333.5" height="306"/>
                                         <color key="backgroundColor" red="0.0" green="1" blue="0.0" alpha="0.19506492080000001" colorSpace="custom" customColorSpace="sRGB"/>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
@@ -84,25 +84,25 @@
                                         </userDefinedRuntimeAttributes>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JmD-Fp-vOM" userLabel="Blue">
-                                        <rect key="frame" x="0.0" y="0.0" width="334" height="306"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="333.5" height="306"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="ApE-ep-dmf">
-                                                <rect key="frame" x="42" y="39" width="250" height="229"/>
+                                                <rect key="frame" x="42" y="39" width="249.5" height="229"/>
                                                 <subviews>
                                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="2lq-hF-1FD" userLabel="Generation">
-                                                        <rect key="frame" x="0.0" y="0.0" width="250" height="45"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="249.5" height="45"/>
                                                         <nil key="textColor"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits"/>
                                                     </textField>
-                                                    <slider opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="tbV-ra-Xh0" userLabel="Grid Size">
-                                                        <rect key="frame" x="-2" y="60" width="254" height="80"/>
+                                                    <slider opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="tbV-ra-Xh0" userLabel="Grid Size">
+                                                        <rect key="frame" x="-2" y="60" width="253.5" height="80"/>
                                                     </slider>
-                                                    <slider opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="mDN-2O-erj" userLabel="Frames/second">
-                                                        <rect key="frame" x="-2" y="154" width="254" height="31"/>
+                                                    <slider opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="mDN-2O-erj" userLabel="Frames/second">
+                                                        <rect key="frame" x="-2" y="154" width="253.5" height="31"/>
                                                     </slider>
-                                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xHg-os-1m0" userLabel="Reset">
-                                                        <rect key="frame" x="105" y="199" width="39" height="30"/>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xHg-os-1m0" userLabel="Reset">
+                                                        <rect key="frame" x="105.5" y="199" width="39" height="30"/>
                                                         <state key="normal" title="Reset"/>
                                                     </button>
                                                 </subviews>
