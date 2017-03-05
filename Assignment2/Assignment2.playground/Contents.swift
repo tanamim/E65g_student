@@ -101,10 +101,13 @@ typealias Position = (row: Int, col: Int)
 enum CellState {
     // ** Your Problem 2 code goes here! Replace the contents of CellState **
     //  This shell code is here so that at all times the playground compiles and runs
-    case empty
+    case alive, empty, born, died
     
     var isAlive: Bool {
-        return false
+        switch self {
+        case .alive, .born: return true
+        default: return false
+        }
     }
 }
 /*:
@@ -117,8 +120,8 @@ enum CellState {
 // A struct representing a Cell in Conway's Game of Life
 struct Cell {
     // ** Your Problem 3 code goes here! replace the following two lines **
-    var position: Position
-    var state: CellState
+    var position = (row: 0, col: 0)
+    var state = CellState.empty
 }
 /*:
  ## Problem 4:
@@ -129,28 +132,28 @@ struct Cell {
  */
 // ** Your Problem 4.1 answer goes here **
 /*
- 
+    Allow you to not specify the name of the parameter on invocation
  */
 /*:
  2. what is the type of the `transform` variable?
  */
 // ** Your Problem 4.2 answer goes here **
 /*
- 
+    function taking 2 Ints and return something of type T
  */
 /*:
  3. what is the return type of `map2`?
  */
 // ** Your Problem 4.3 answer goes here **
 /*
- 
+    An array of array of T
  */
 /*:
  4. what is `T` in this declaration?
  */
 // ** Your Problem 4.4 answer goes here **
 /*
- 
+    a generic parameter
  */
 // A function which is like the standard map function but
 // which will operate only on a two dimensional array
@@ -175,7 +178,7 @@ func map2<T>(_ rows: Int, _ cols: Int, transform: (Int, Int) -> T) -> [[T]] {
 */
 // ** Your Problem 5 comment goes here! **
 /*
- 
+    They represent the relative positions of the neighbors of a given cell
  */
 /*:
  ## Problem 6:
@@ -217,16 +220,21 @@ struct Grid {
     ]
     
     // ** Your Problem 6 code goes here! Change the following two lines **
-    var rows: Int = 0
-    var cols: Int = 0
+    var rows: Int = 10
+    var cols: Int = 10
     var cells: [[Cell]] = [[Cell]]()
     
     init(_ rows: Int,
          _ cols: Int,
          cellInitializer: (Int, Int) -> CellState = { _,_ in .empty } ) {
         // ** Your Problem 7 code goes here! **
+        self.rows = rows
+        self.cols = cols
+        self.cells = [[Cell]](repeatElement([Cell](repeatElement(Cell(), count: cols)), count: rows))
         map2(rows, cols) { row, col in
             // ** Your Problem 8 code goes here! **
+            cells[row][col].position = (row, col)
+            cells[row][col].state = cellInitializer(row, col)
         }
     }
 }
@@ -266,14 +274,14 @@ struct Grid {
  */
 // ** your problem 10.1 answer goes here.
 /*
- 
+    When calling this function as an argument to get an array of neighboring cell Position
  */
 /*:
  2. Explain in one sentence when you would use the word `cell` in relation to this function
  */
 // ** your problem 10.2 answer goes here.
 /*
- 
+    Inside of this function I use it as a variable
  */
 // An extension of Grid to add a function for computing the positions
 // of the 8 neighboring cells of a given cell
@@ -283,7 +291,10 @@ extension Grid {
     func neighbors(of cell: Cell) -> [Position] {
         return Grid.offsets.map {
             // ** Your Problem 9 Code goes here! replace the following line **
-            return Position(row: $0, col: $1)
+            func wrappedPos(_ pos: Int, _ offs: Int, _ max: Int) -> Int {
+                return ((pos + offs) % max + max) % max}
+            return Position(row: wrappedPos($0, cell.position.row, self.rows),
+                            col: wrappedPos($1, cell.position.col, self.cols))
         }
     }
 }
@@ -295,21 +306,21 @@ extension Grid {
  */
 // ** Your Problem 11.1 answer goes here **
 /*
- 
+    Get some value using row and col and return combined value with subtotal
  */
 /*:
  2. what is the return type of reduce2?
  */
 // ** Your Problem 11.2 answer goes here **
 /*
- 
+    Int
  */
 /*:
  3. why is there no T parameter here as in map2 above?
  */
 // ** Your Problem 11.3 answer goes here **
 /*
- 
+    Because we eventually need accumulated Int value
  */
 
 // A function which is useful for counting things in an array of arrays of things
@@ -335,7 +346,7 @@ extension Grid {
     var numLiving: Int {
         return reduce2(self.rows, self.cols) { total, row, col in
             // ** Replace the following line with your Problem 12 code
-            return 0
+            return cells[row][col].state.isAlive ? total + 1 : total
         }
     }
 }
@@ -367,15 +378,15 @@ extension Grid {
 // Code to initialize a 10x10 grid, set up every cell in the grid
 // and randomly turn each cell on or off.  Uncomment following 4 lines
 // and replace `.empty` with your one line of code
-//var grid = Grid(10, 10) { row, col in 
-//   // ** Your Problem 13 code goes here! **
-//   .empty
-//}
-//grid.numLiving
+var grid = Grid(10, 10) { row, col in 
+   // ** Your Problem 13 code goes here! **
+    arc4random_uniform(3) == 2 ? .alive : .empty
+}
+grid.numLiving
 
 // ** Your Problem 13 comment goes here! **
 /*
- 
+    By using random number generator, the chance of being 2 is approximately 1/3.
  */
 /*:
  ## Problem 14:
@@ -401,11 +412,14 @@ extension Grid {
     subscript (row: Int, col: Int) -> Cell? {
         get {
             // ** Your Problem 14 `get` code goes here! replace the following line **
-            return nil
+            guard (0 <= row && row < self.rows && 0 <= col && col < self.cols) else { return nil }
+            return self.cells[row][col]
         }
         set {
             // ** Your Problem 14 `set` code goes here! replace the following line **
-            return
+            guard (0 <= row && row < self.rows && 0 <= col && col < self.cols) else { return }
+            guard let nv = newValue else { return }
+            self.cells[row][col] = nv
         }
     }
 }
@@ -418,28 +432,28 @@ extension Grid {
  */
 // Problem 15.1 answer goes here
 /*
- 
+    struct Cell
  */
 /*:
  2. what the type of `self[row,col]`?
  */
 // Problem 15.2 answer goes here
 /*
- 
+    optional struct Cell
  */
 /*:
  3. why those two types are different?
  */
 // Problem 15.3 comment goes here
 /*
- 
+    optional is used in guard statements and it will be unwrapped
  */
 /*:
  4. under what circumstances will the `else` clause will be executed?
  */
 // Problem 15.4 comment goes here
 /*
- 
+    When neighborCell is nil
  */
 /*:
  ## Problem 16:
@@ -451,7 +465,7 @@ extension Grid {
 
 // Problem 16 comment goes here
 /*
- 
+    Accumulated Int value by traversing each Position of the neighboring cell
  */
 
 /*:
@@ -467,7 +481,7 @@ extension Grid {
 
 // Problem 17 comment goes here
 /*
- 
+    The current Position to be used in the combine part of the reduce function.
  */
 
 /*:
@@ -492,8 +506,7 @@ extension Grid {
             .reduce(0) {
                 guard let neighborCell = self[$1.row, $1.col] else { return $0 }
                 // ** Problem 18 code goes here!  replace the following 2 lines **
-                neighborCell
-                return $0
+                return neighborCell.state.isAlive ? $0 + 1 : $0
         }
     }
 }
@@ -523,7 +536,12 @@ extension Grid {
 extension Grid {
     func nextState(of cell: Cell) -> CellState {
         // ** Problem 19 code goes here! Replace the following line **
-        return .empty
+        let numAlive = self.livingNeighbors(of: cell)
+        switch numAlive {
+        case let x where ((x == 2 && cell.state.isAlive) || x == 3):
+            return .alive
+        default: return .empty
+        }
     }
 }
 /*:
@@ -536,9 +554,10 @@ extension Grid {
 // An extension to grid to jump to the next state of Conway's GoL
 extension Grid {
     func next() -> Grid {
-        let nextGrid = Grid(rows, cols)
+        var nextGrid = Grid(rows, cols)  // let -> var
         map2(self.rows, self.cols) { (row, col)  in
             // ** Problem 20 code goes here! **
+            nextGrid.cells[row][col].state = nextState(of: self.cells[row][col])
         }
         return nextGrid
     }
@@ -553,7 +572,7 @@ extension Grid {
 
 // ** Your Problem 21 comment goes here! **
 /*
- 
+    It represents the next state of every cells in the grid
  */
 /*:
  ## Problem 22:
@@ -561,8 +580,8 @@ extension Grid {
  Verify that the number living is still in the neighborhood of 33
  If it is not please debug all your code
  */
-//grid = grid.next()
-//grid.numLiving
+grid = grid.next()
+grid.numLiving
 /*:
  It works!
  ## For Fun
