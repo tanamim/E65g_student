@@ -120,7 +120,7 @@ enum CellState {
 // A struct representing a Cell in Conway's Game of Life
 struct Cell {
     // ** Your Problem 3 code goes here! replace the following two lines **
-    var position = (row: 0, col: 0)
+    var position = Position(row: 0, col: 0)
     var state = CellState.empty
 }
 /*:
@@ -146,14 +146,14 @@ struct Cell {
  */
 // ** Your Problem 4.3 answer goes here **
 /*
-    An array of array of T
+    [[T]] i.e. An array of array of T
  */
 /*:
  4. what is `T` in this declaration?
  */
 // ** Your Problem 4.4 answer goes here **
 /*
-    a generic parameter
+    a generic type determined by what is returned from transform
  */
 // A function which is like the standard map function but
 // which will operate only on a two dimensional array
@@ -282,6 +282,7 @@ struct Grid {
 // ** your problem 10.2 answer goes here.
 /*
     Inside of this function I use it as a variable
+    (Answer: when using the parameter in the function)
  */
 // An extension of Grid to add a function for computing the positions
 // of the 8 neighboring cells of a given cell
@@ -291,10 +292,14 @@ extension Grid {
     func neighbors(of cell: Cell) -> [Position] {
         return Grid.offsets.map {
             // ** Your Problem 9 Code goes here! replace the following line **
-            func wrappedPos(_ pos: Int, _ offs: Int, _ max: Int) -> Int {
-                return ((pos + offs) % max + max) % max}
-            return Position(row: wrappedPos($0, cell.position.row, self.rows),
-                            col: wrappedPos($1, cell.position.col, self.cols))
+//            func wrappedPos(_ pos: Int, _ offs: Int, _ max: Int) -> Int {
+//                return ((pos + offs) % max + max) % max}
+//            return Position(row: wrappedPos($0, cell.position.row, self.rows),
+//                            col: wrappedPos($1, cell.position.col, self.cols))
+            return Position(       // Take from Van's solution
+                row: (cell.position.row + $0.row + self.rows) % self.rows,
+                col: (cell.position.col + $0.col + self.cols) % self.cols
+            )
         }
     }
 }
@@ -307,6 +312,7 @@ extension Grid {
 // ** Your Problem 11.1 answer goes here **
 /*
     Get some value using row and col and return combined value with subtotal
+    (Answer: sum a series of values determined by row and col)
  */
 /*:
  2. what is the return type of reduce2?
@@ -321,6 +327,7 @@ extension Grid {
 // ** Your Problem 11.3 answer goes here **
 /*
     Because we eventually need accumulated Int value
+    (Answer: because the return type is fixed as Int where in map2 it was generic)
  */
 
 // A function which is useful for counting things in an array of arrays of things
@@ -412,14 +419,18 @@ extension Grid {
     subscript (row: Int, col: Int) -> Cell? {
         get {
             // ** Your Problem 14 `get` code goes here! replace the following line **
-            guard (0 <= row && row < self.rows && 0 <= col && col < self.cols) else { return nil }
+//            guard (0 <= row && row < self.rows && 0 <= col && col < self.cols) else { return nil }
+            guard (0 <= row && row < rows && 0 <= col && col < cols) else { return nil }  // Taken from Van's answer
             return self.cells[row][col]
         }
         set {
             // ** Your Problem 14 `set` code goes here! replace the following line **
-            guard (0 <= row && row < self.rows && 0 <= col && col < self.cols) else { return }
-            guard let nv = newValue else { return }
-            self.cells[row][col] = nv
+//            guard (0 <= row && row < self.rows && 0 <= col && col < self.cols) else { return }
+//            guard let nv = newValue else { return }
+//            self.cells[row][col] = nv
+            guard let nv = newValue, (0 <= row && row < rows && 0 <= col && col < cols) else { return } // Taken from Van's answer
+            cells[row][col] = nv
+            return
         }
     }
 }
@@ -447,6 +458,7 @@ extension Grid {
 // Problem 15.3 comment goes here
 /*
     optional is used in guard statements and it will be unwrapped
+    (Answer: One is an optional and the other is nonoptional)
  */
 /*:
  4. under what circumstances will the `else` clause will be executed?
@@ -454,6 +466,7 @@ extension Grid {
 // Problem 15.4 comment goes here
 /*
     When neighborCell is nil
+    (Answer: when row or col or both is an invalid value)
  */
 /*:
  ## Problem 16:
@@ -466,6 +479,7 @@ extension Grid {
 // Problem 16 comment goes here
 /*
     Accumulated Int value by traversing each Position of the neighboring cell
+    (Answer: how many of the neighbor of a given cell are in the isAlive state)
  */
 
 /*:
@@ -482,6 +496,7 @@ extension Grid {
 // Problem 17 comment goes here
 /*
     The current Position to be used in the combine part of the reduce function.
+    (Answer: $1 is a Position to be used to reference a cell in the grid)
  */
 
 /*:
@@ -536,10 +551,16 @@ extension Grid {
 extension Grid {
     func nextState(of cell: Cell) -> CellState {
         // ** Problem 19 code goes here! Replace the following line **
-        let numAlive = self.livingNeighbors(of: cell)
-        switch numAlive {
-        case let x where ((x == 2 && cell.state.isAlive) || x == 3):
-            return .alive
+//        let numAlive = self.livingNeighbors(of: cell)
+//        switch numAlive {
+//        case let x where ((x == 2 && cell.state.isAlive) || x == 3):
+//            return .alive
+//        default: return .empty
+
+        // Taken from Van's answer - multiple matches for a single case statement can be separated with commas
+        switch livingNeighbors(of: cell) {
+        case 2 where cell.state.isAlive,
+             3: return .alive
         default: return .empty
         }
     }
@@ -557,7 +578,8 @@ extension Grid {
         var nextGrid = Grid(rows, cols)  // let -> var
         map2(self.rows, self.cols) { (row, col)  in
             // ** Problem 20 code goes here! **
-            nextGrid.cells[row][col].state = nextState(of: self.cells[row][col])
+            nextGrid[row,col]!.state = self.nextState(of: self[row,col]!)  // Taken from Van's answer - use subscript operator
+//            nextGrid.cells[row][col].state = nextState(of: self.cells[row][col])
         }
         return nextGrid
     }
