@@ -23,6 +23,7 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
+    // Assignment3 Part6
     @IBAction func pressStep(_ sender: Any) {
         gridView.grid = gridView.grid.next()
         gridView.setNeedsDisplay()

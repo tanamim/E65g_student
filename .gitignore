@@ -27,6 +27,9 @@ xcuserdata/
 *.dSYM.zip
 *.dSYM
 
+## my ignore
+.DS_Store  ## Added 2017/3/27
+
 ## Playgrounds
 timeline.xctimeline
 playground.xcworkspace
