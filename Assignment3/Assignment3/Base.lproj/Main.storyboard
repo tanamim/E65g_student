@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11134" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11106"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Assignment3" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -16,11 +20,57 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view alpha="0.5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BDt-2I-reV" userLabel="GridView" customClass="GridView" customModule="Assignment3" customModuleProvider="target">
+                                <rect key="frame" x="67.5" y="213.5" width="240" height="240"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="tintColor" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="BDt-2I-reV" secondAttribute="height" multiplier="1:1" id="9bM-9o-9l4"/>
+                                    <constraint firstAttribute="width" constant="240" id="X0j-i0-q40"/>
+                                    <constraint firstAttribute="height" constant="240" id="k2l-YH-eIq"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="size">
+                                        <integer key="value" value="20"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MHp-Sd-7D9">
+                                <rect key="frame" x="67" y="168.5" width="32" height="30"/>
+                                <state key="normal" title="Step"/>
+                                <connections>
+                                    <action selector="pressStep:" destination="BYZ-38-t0r" eventType="touchUpInside" id="KkR-mb-RQU"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eii-lI-otM">
+                                <rect key="frame" x="268" y="168.5" width="39" height="30"/>
+                                <state key="normal" title="Reset"/>
+                                <connections>
+                                    <action selector="pressReset:" destination="BYZ-38-t0r" eventType="touchUpInside" id="0qk-aq-qP8"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="eii-lI-otM" firstAttribute="trailing" secondItem="BDt-2I-reV" secondAttribute="trailing" id="RdI-Ex-KTo"/>
+                            <constraint firstItem="BDt-2I-reV" firstAttribute="top" secondItem="MHp-Sd-7D9" secondAttribute="bottom" priority="750" constant="15" id="X2v-Ye-oMX"/>
+                            <constraint firstItem="BDt-2I-reV" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="Ykx-dv-nHd"/>
+                            <constraint firstItem="BDt-2I-reV" firstAttribute="leading" secondItem="MHp-Sd-7D9" secondAttribute="leading" id="bBM-Um-fUV"/>
+                            <constraint firstItem="BDt-2I-reV" firstAttribute="top" secondItem="eii-lI-otM" secondAttribute="bottom" priority="750" constant="15" id="bIQ-Mg-ISB"/>
+                            <constraint firstItem="eii-lI-otM" firstAttribute="top" relation="greaterThanOrEqual" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="15" id="jPr-y3-DnO"/>
+                            <constraint firstItem="BDt-2I-reV" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="jdm-4I-BXa"/>
+                            <constraint firstItem="MHp-Sd-7D9" firstAttribute="top" relation="greaterThanOrEqual" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="15" id="r38-3E-bgA"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="gridView" destination="BDt-2I-reV" id="JHM-1V-wrM"/>
+                        <outlet property="step" destination="MHp-Sd-7D9" id="uay-Ub-nmy"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="36" y="117.39130434782609"/>
         </scene>
     </scenes>
 </document>

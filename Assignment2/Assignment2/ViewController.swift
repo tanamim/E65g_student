@@ -9,6 +9,10 @@
 import UIKit
 
 class ViewController: UIViewController {
+    
+    @IBOutlet weak var step: UIButton!
+    @IBOutlet weak var gridView: GridView!
+    @IBOutlet weak var gridView: GridView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,6 +24,14 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
-
+    @IBAction func pressStep(_ sender: Any) {
+        gridView.grid = gridView.grid.next()
+        gridView.setNeedsDisplay()
+    }
+    @IBAction func reset(_ sender: Any) {
+        gridView.grid = Grid(gridView.size, gridView.size)
+        gridView.setNeedsDisplay()
+    }
+        
 }
 
