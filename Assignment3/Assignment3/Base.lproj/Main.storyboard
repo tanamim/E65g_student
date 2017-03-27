@@ -62,7 +62,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eii-lI-otM">
-                                <rect key="frame" x="268" y="168.5" width="39" height="30"/>
+                                <rect key="frame" x="268.5" y="168.5" width="39" height="30"/>
                                 <state key="normal" title="Reset"/>
                                 <connections>
                                     <action selector="pressReset:" destination="BYZ-38-t0r" eventType="touchUpInside" id="0qk-aq-qP8"/>

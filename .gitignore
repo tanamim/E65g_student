@@ -28,7 +28,7 @@ xcuserdata/
 *.dSYM
 
 ## my ignore
-.DS_Store  ## Added 2017/3/27
+Assignment*/.DS_Store
 
 ## Playgrounds
 timeline.xctimeline
