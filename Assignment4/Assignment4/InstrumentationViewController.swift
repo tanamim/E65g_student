@@ -11,10 +11,14 @@ import UIKit
 class InstrumentationViewController: UIViewController, UITextFieldDelegate {
 
     @IBInspectable var size = 3
+    @IBInspectable var rate = 3.0
+    @IBInspectable var refresh = true
     @IBOutlet var sizeTextFieldRow: UITextField!
     @IBOutlet var sizeStepperRow: UIStepper!
     @IBOutlet var sizeTextFieldCol: UITextField!
     @IBOutlet var sizeStepperCol: UIStepper!
+    @IBOutlet var refreshRate: UILabel!
+    @IBOutlet var isRefresh: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,6 +34,23 @@ class InstrumentationViewController: UIViewController, UITextFieldDelegate {
         // Dispose of any resources that can be recreated.
     }
 
+    // Switch Event Handling
+    @IBAction func refreshSwich(_ sender: UISwitch) {
+        refresh = sender.isOn
+        let on_off = refresh ? "ON" : "OFF"
+        isRefresh.text = "Refresh: \(on_off)"
+        print("refresh: " + on_off)
+    }
+    
+    
+    // Slider Event Handling
+    @IBAction func slide(_ sender: UISlider) {
+        rate = (Double(sender.value) * 10).rounded() / 10
+        refreshRate.text = "\(rate) Hz"
+        print("rate is " + String(rate))
+    }
+    
+    
     // Stepper Event Handling
     @IBAction func step(_ sender: UIStepper) {
         size = Int(sender.value)
