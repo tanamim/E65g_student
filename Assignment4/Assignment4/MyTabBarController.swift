@@ -1,5 +1,5 @@
 //
-//  ThirdViewController.swift
+//  MyTabBarController.swift
 //  Assignment4
 //
 //  Created by Chiryoku Inc. on 4/18/17.
@@ -8,12 +8,24 @@
 
 import UIKit
 
-class ThirdViewController: UIViewController {
+class MyTabBarController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        
+        // icon color
+        UITabBar.appearance().tintColor = UIColor(red: 255/255, green: 233/255, blue: 51/255, alpha: 1.0) // yellow
+        
+        // icon background
+        UITabBar.appearance().barTintColor = UIColor(red: 66/255, green: 74/255, blue: 93/255, alpha: 1.0) // grey black
+        
+        
+//        let instrumentationViewController = InstrumentationViewController()
+//        instrumentationViewController.tabBarItem = UITabBarItem()
+    
+    
     }
 
     override func didReceiveMemoryWarning() {
