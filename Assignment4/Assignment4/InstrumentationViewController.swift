@@ -39,7 +39,7 @@ class InstrumentationViewController: UIViewController, UITextFieldDelegate {
         refresh = sender.isOn
         let on_off = refresh ? "ON" : "OFF"
         isRefresh.text = "Refresh: \(on_off)"
-        print("refresh: " + on_off)
+        print("refreshis " + on_off)
     }
     
     

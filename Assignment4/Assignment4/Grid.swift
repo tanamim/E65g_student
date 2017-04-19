@@ -1,6 +1,8 @@
 //
 //  Grid.swift
 //
+import Foundation
+
 public typealias GridPosition = (row: Int, col: Int)
 public typealias GridSize = (rows: Int, cols: Int)
 
@@ -141,3 +143,77 @@ public extension Grid {
         }
     }
 }
+
+
+// Engine Implementation (Assignment4 Part3)
+protocol EngineDelegate {
+    func engineDidUpdate(withGrid: GridProtocol)
+}
+
+
+protocol EngineProtocol {
+    var delegate: EngineDelegate? { get set }
+    var grid: GridProtocol { get }
+    var refreshRate: Double { get set }
+    var refreshTimer: Timer? { get set }
+    var rows: Int { get set }
+    var cols: Int { get set }
+    init(_ rows: Int, _ cols: Int)
+    func step() -> GridProtocol
+}
+
+//@available(iOS 10.0, *)
+class StandardEngine: EngineProtocol {
+    var delegate: EngineDelegate?
+    var grid: GridProtocol
+    var rows: Int
+    var cols: Int
+    var refreshRate: Double
+    var refreshTimer: Timer?
+    var timerInterval: TimeInterval = 0.0 {
+        didSet {
+            if timerInterval > 0.0 {
+                refreshTimer = Timer.scheduledTimer(
+                    withTimeInterval: timerInterval,
+                    repeats: true
+                ) { (t: Timer) in
+                    self.grid = self.step()
+                }
+            }
+            else {
+                refreshTimer?.invalidate()
+                refreshTimer = nil
+            }
+        }
+    }
+    
+    required init(_ rows: Int, _ cols: Int) {
+        self.rows = rows
+        self.cols = cols
+        self.grid = Grid(rows, cols)
+        self.refreshRate = 0.0
+    }
+    
+    func step() -> GridProtocol {
+        let newGrid = grid.next()
+        grid = newGrid
+        delegate?.engineDidUpdate(withGrid: grid)
+        return grid
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
