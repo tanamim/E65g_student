@@ -13,19 +13,19 @@ class InstrumentationViewController: UIViewController, UITextFieldDelegate {
     @IBInspectable var size = 3
     @IBInspectable var rate = 3.0
     @IBInspectable var refresh = true
-    @IBOutlet var sizeTextFieldRow: UITextField!
-    @IBOutlet var sizeStepperRow: UIStepper!
-    @IBOutlet var sizeTextFieldCol: UITextField!
-    @IBOutlet var sizeStepperCol: UIStepper!
-    @IBOutlet var refreshRate: UILabel!
-    @IBOutlet var isRefresh: UILabel!
+    @IBOutlet weak var sizeTextFieldRow: UITextField!
+    @IBOutlet weak var sizeTextFieldCol: UITextField!
+    @IBOutlet weak var sizeStepperRow: UIStepper!
+    @IBOutlet weak var sizeStepperCol: UIStepper!
+    @IBOutlet weak var refreshRate: UILabel!
+    @IBOutlet weak var isRefresh: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         sizeTextFieldRow.text = "\(size)"
-        sizeStepperRow.value = Double(size)
         sizeTextFieldCol.text = "\(size)"
+        sizeStepperRow.value = Double(size)
         sizeStepperCol.value = Double(size)
     }
 
@@ -56,6 +56,8 @@ class InstrumentationViewController: UIViewController, UITextFieldDelegate {
         size = Int(sender.value)
         sizeTextFieldRow.text = "\(size)"
         sizeTextFieldCol.text = "\(size)"
+        sizeStepperRow.value = Double(size)
+        sizeStepperCol.value = Double(size)
         print("size is " + String(size))
     }
     

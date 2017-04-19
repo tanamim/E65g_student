@@ -8,8 +8,23 @@ public typealias GridSize = (rows: Int, cols: Int)
 
 fileprivate func norm(_ val: Int, to size: Int) -> Int { return ((val % size) + size) % size }
 
-public enum CellState {
-    case alive, empty, born, died
+//public enum CellState {
+//    case alive, empty, born, died
+//    
+//    public var isAlive: Bool {
+//        switch self {
+//        case .alive, .born: return true
+//        default: return false
+//        }
+//    }
+//}
+
+public enum CellState : String {
+    // Assignment3 Part1
+    case alive = "alive"
+    case empty = "empty"
+    case born  = "born"
+    case died  = "died"
     
     public var isAlive: Bool {
         switch self {
@@ -17,7 +32,25 @@ public enum CellState {
         default: return false
         }
     }
+    
+    public func description() -> String {
+        switch self {  // spec asked to use switch statement
+        default: return self.rawValue
+        }
+    }
+    
+    public func allValues() -> [CellState] {
+        return [.alive, .empty, .born, .died]
+    }
+    
+    public func toggle(value: CellState) -> CellState {
+        switch self {
+        case .empty, .died: return .alive
+        case .alive, .born: return .empty
+        }
+    }
 }
+
 
 public protocol GridProtocol {
     init(_ rows: Int, _ cols: Int, cellInitializer: (GridPosition) -> CellState)

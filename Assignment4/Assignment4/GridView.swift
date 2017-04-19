@@ -107,7 +107,10 @@ import UIKit
         guard lastTouchedPosition?.row != pos.row
             || lastTouchedPosition?.col != pos.col
             else { return pos }
-        grid[(pos.row, pos.col)] = grid[(pos.row, pos.col)].toggle(value: grid[(pos.row, pos.col)])  // toggle .empty <-> .alive
+        let row = pos.row
+        let col = pos.col
+        // toggle .empty <-> .alive
+        grid[(row, col)] = grid[(row, col)].toggle(value: grid[(row, col)])
         setNeedsDisplay()
         return pos
     }
