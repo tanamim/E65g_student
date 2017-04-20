@@ -104,7 +104,8 @@
                                                             <constraint firstAttribute="width" constant="120" id="E9X-AU-TbF"/>
                                                         </constraints>
                                                         <connections>
-                                                            <action selector="slide:" destination="9pv-A4-QxB" eventType="valueChanged" id="FEf-sL-6kY"/>
+                                                            <action selector="slide:" destination="9pv-A4-QxB" eventType="valueChanged" id="TXH-VN-IMQ"/>
+                                                            <action selector="slided:" destination="9pv-A4-QxB" eventType="touchUpInside" id="jgV-iL-wqD"/>
                                                         </connections>
                                                     </slider>
                                                 </subviews>

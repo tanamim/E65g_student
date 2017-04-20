@@ -32,22 +32,19 @@ class SimulationViewController: UIViewController, EngineDelegate, UITabBarDelega
             self.gridView.setNeedsDisplay()
         }
         
-        
-//        let size = gridView.size
+        // set initial size
         let size = appDelegate.size
         gridView.size = size
 
         engine = StandardEngine(size, size)  // singleton
         engine.delegate = self
-        gridView.grid = Grid(size, size)
+        
         gridView.setNeedsDisplay()
-
         print("Now the size is \(size)")
         
     }
 
     func engineDidUpdate(withGrid: GridProtocol) {
-        gridView.grid = gridView.grid.next()
         self.gridView.setNeedsDisplay()
     }
 
@@ -59,10 +56,8 @@ class SimulationViewController: UIViewController, EngineDelegate, UITabBarDelega
 
     
     @IBAction func next (_ sender: Any) {
-//        gridView.grid = gridView.grid.next()
-//        gridView.size = size
-        var _ = engine.step()
-//        gridView.setNeedsDisplay()
+        gridView.grid = gridView.grid.next()
+        gridView.setNeedsDisplay()
     }
     
     

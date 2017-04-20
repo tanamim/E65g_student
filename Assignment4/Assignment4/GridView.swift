@@ -25,7 +25,7 @@ import UIKit
     @IBInspectable var gridColor:   UIColor = UIColor.black
     @IBInspectable var gridWidth:   CGFloat = CGFloat(2.0)
     
-    var grid = Grid(20, 20)
+    var grid = Grid(3, 3)
     
     override func draw(_ rect: CGRect) {
         // Assignment3 Part4

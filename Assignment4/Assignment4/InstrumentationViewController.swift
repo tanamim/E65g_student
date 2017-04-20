@@ -49,6 +49,10 @@ class InstrumentationViewController: UIViewController, UITextFieldDelegate {
     @IBAction func slide(_ sender: UISlider) {
         rate = (Double(sender.value) * 10).rounded() / 10
         refreshRate.text = "\(rate) Hz"
+    }
+
+    @IBAction func slided(_ sender: UISlider) {
+        rate = (Double(sender.value) * 10).rounded() / 10
         print("rate is " + String(rate))
     }
     

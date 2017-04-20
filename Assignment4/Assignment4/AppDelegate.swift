@@ -14,8 +14,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     var viewControllers: [UIViewController] = []
-//    var size: Int = 10  // shared value
 
+    struct Instrumentation {
+        let size: Int
+        let rate: Double
+        let refresh: Bool
+    }
+
+    
+    
+    //    var size: Int = 10  // shared value
     var size: Int = 10 {
         didSet {
             print("AppDelegate: size is now \(size)")

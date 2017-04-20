@@ -197,11 +197,10 @@ protocol EngineProtocol {
 
 //@available(iOS 10.0, *)
 class StandardEngine: EngineProtocol {
-//    static var engine = StandardEngine(10, 10)
     var delegate: EngineDelegate?
-    var grid: GridProtocol
     var rows: Int
     var cols: Int
+    var grid: GridProtocol
     var refreshRate: Double
     var refreshTimer: Timer?
     var timerInterval: TimeInterval = 0.0 {
@@ -229,8 +228,7 @@ class StandardEngine: EngineProtocol {
     }
     
     func step() -> GridProtocol {
-        let newGrid = grid.next()
-        grid = newGrid
+        grid = grid.next()
         delegate?.engineDidUpdate(withGrid: grid)
         return grid
     }
