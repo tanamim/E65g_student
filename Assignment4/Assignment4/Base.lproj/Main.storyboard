@@ -4,7 +4,9 @@
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -38,6 +40,7 @@
                                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="CKw-7q-sxv">
                                                         <rect key="frame" x="49" y="0.0" width="25" height="30"/>
                                                         <nil key="textColor"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                         <textInputTraits key="textInputTraits"/>
                                                         <connections>
                                                             <action selector="editingBegan:" destination="9pv-A4-QxB" eventType="editingDidBegin" id="upW-dR-W84"/>
@@ -66,6 +69,7 @@
                                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fAt-0d-0bu">
                                                         <rect key="frame" x="42" y="0.0" width="25" height="30"/>
                                                         <nil key="textColor"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                         <textInputTraits key="textInputTraits"/>
                                                         <connections>
                                                             <action selector="editingBegan:" destination="9pv-A4-QxB" eventType="editingDidBegin" id="Hbb-Km-ur3"/>
@@ -182,41 +186,79 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="Simulation View" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="zEq-FU-wV5">
-                                <rect key="frame" x="32" y="263" width="256" height="42"/>
-                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="36"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loaded by SimulationViewController" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NDk-cv-Gan">
-                                <rect key="frame" x="43" y="312.5" width="233" height="17"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Icon: https://icons8.com/web-app/33561/Play-Property" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" enabled="NO" translatesAutoresizingMaskIntoConstraints="NO" id="toj-gP-tKK">
                                 <rect key="frame" x="27.5" y="499" width="265" height="12"/>
                                 <fontDescription key="fontDescription" type="system" weight="ultraLight" pointSize="10"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pKS-PN-hfU" customClass="GridView" customModule="Assignment4" customModuleProvider="target">
+                                <rect key="frame" x="40" y="164" width="240" height="240"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="240" id="W0l-gL-KAJ"/>
+                                    <constraint firstAttribute="width" constant="240" id="s7v-4d-5x5"/>
+                                    <constraint firstAttribute="width" secondItem="pKS-PN-hfU" secondAttribute="height" multiplier="1:1" id="u3G-09-57J"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="size">
+                                        <integer key="value" value="10"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="emptyColor">
+                                        <color key="value" red="0.39215686274509803" green="0.39215686274509803" blue="0.39215686274509803" alpha="1" colorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="gridColor">
+                                        <color key="value" white="0.0" alpha="0.5" colorSpace="calibratedWhite"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="gridWidth">
+                                        <integer key="value" value="1"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rwi-GA-9ch">
+                                <rect key="frame" x="40" y="126" width="32" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="32" id="FvY-4s-tlR"/>
+                                    <constraint firstAttribute="height" constant="30" id="ZPs-NC-LFr"/>
+                                </constraints>
+                                <state key="normal" title="Next"/>
+                                <connections>
+                                    <action selector="next:" destination="8rJ-Kc-sve" eventType="touchUpInside" id="FoW-68-twC"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VQW-82-yzP">
+                                <rect key="frame" x="241" y="126" width="39" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="9FI-fq-nfU"/>
+                                    <constraint firstAttribute="width" constant="39" id="QYY-eI-WZm"/>
+                                </constraints>
+                                <state key="normal" title="Reset"/>
+                                <connections>
+                                    <action selector="pressReset:" destination="8rJ-Kc-sve" eventType="touchUpInside" id="FrY-7T-3Hj"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="0.55686274509803924" blue="0.78823529411764703" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
+                            <constraint firstItem="pKS-PN-hfU" firstAttribute="centerX" secondItem="QS5-Rx-YEW" secondAttribute="centerX" id="0At-QX-VU9"/>
                             <constraint firstItem="toj-gP-tKK" firstAttribute="centerX" secondItem="QS5-Rx-YEW" secondAttribute="centerX" id="6Dd-II-59Y"/>
-                            <constraint firstItem="NDk-cv-Gan" firstAttribute="top" secondItem="zEq-FU-wV5" secondAttribute="bottom" constant="8" symbolic="YES" id="Day-4N-Vmt"/>
-                            <constraint firstItem="NDk-cv-Gan" firstAttribute="centerX" secondItem="zEq-FU-wV5" secondAttribute="centerX" id="JgO-Fn-dHn"/>
+                            <constraint firstItem="pKS-PN-hfU" firstAttribute="top" secondItem="Rwi-GA-9ch" secondAttribute="bottom" constant="8" id="CiV-tS-8Pz"/>
+                            <constraint firstItem="VQW-82-yzP" firstAttribute="trailing" secondItem="pKS-PN-hfU" secondAttribute="trailing" id="MbT-JX-LhA"/>
+                            <constraint firstItem="pKS-PN-hfU" firstAttribute="top" secondItem="VQW-82-yzP" secondAttribute="bottom" constant="8" id="UqX-xA-mUO"/>
                             <constraint firstItem="Djb-ko-YwX" firstAttribute="top" secondItem="toj-gP-tKK" secondAttribute="bottom" constant="8" id="pfO-gd-Kid"/>
-                            <constraint firstAttribute="centerX" secondItem="zEq-FU-wV5" secondAttribute="centerX" id="qqM-NS-xev"/>
-                            <constraint firstAttribute="centerY" secondItem="zEq-FU-wV5" secondAttribute="centerY" id="qzY-Ky-pLD"/>
+                            <constraint firstItem="pKS-PN-hfU" firstAttribute="leading" secondItem="Rwi-GA-9ch" secondAttribute="leading" id="uqX-Mh-mRJ"/>
+                            <constraint firstItem="pKS-PN-hfU" firstAttribute="centerY" secondItem="QS5-Rx-YEW" secondAttribute="centerY" id="vTx-fc-wDG"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Simulation" image="Simulation" selectedImage="Simulation" id="cPa-gy-q4n" userLabel="Simulation"/>
+                    <connections>
+                        <outlet property="gridView" destination="pKS-PN-hfU" id="F0g-wt-ZVB"/>
+                        <outlet property="step" destination="Rwi-GA-9ch" id="iYO-8s-Kru"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Nw-L8-lE0" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="750" y="360"/>
+            <point key="canvasLocation" x="750" y="359.15492957746477"/>
         </scene>
         <!--Statistics-->
         <scene sceneID="ffz-Uh-ame">

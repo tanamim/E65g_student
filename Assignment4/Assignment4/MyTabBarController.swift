@@ -21,11 +21,6 @@ class MyTabBarController: UITabBarController {
         // icon background
         UITabBar.appearance().barTintColor = UIColor(red: 66/255, green: 74/255, blue: 93/255, alpha: 1.0) // grey black
         
-        
-//        let instrumentationViewController = InstrumentationViewController()
-//        instrumentationViewController.tabBarItem = UITabBarItem()
-    
-    
     }
 
     override func didReceiveMemoryWarning() {
@@ -43,5 +38,4 @@ class MyTabBarController: UITabBarController {
         // Pass the selected object to the new view controller.
     }
     */
-
 }

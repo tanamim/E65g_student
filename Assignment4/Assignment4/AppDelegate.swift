@@ -13,7 +13,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
+    var viewControllers: [UIViewController] = []
+//    var size: Int = 10  // shared value
 
+    var size: Int = 10 {
+        didSet {
+            print("AppDelegate: size is now \(size)")
+            let nc = NotificationCenter.default
+            let name = Notification.Name(rawValue: "GridUpdate")
+            let n = Notification(name: name, object: nil, userInfo: ["AppDelegate": self])
+            nc.post(n)
+        }
+    }
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         return true

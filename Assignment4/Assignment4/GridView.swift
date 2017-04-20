@@ -9,8 +9,9 @@
 import UIKit
 
 @IBDesignable class GridView: UIView {
+
     // Assignment3 Part2
-    @IBInspectable var size: Int = 20 {  // Default
+    @IBInspectable var size: Int = 10 {  // Default
         didSet {
             grid = Grid(size, size)      // Reinitialize when Inspectable size property chages
         }
@@ -29,6 +30,7 @@ import UIKit
     override func draw(_ rect: CGRect) {
         // Assignment3 Part4
         // draw multiple circles in rectangulars
+
         let size = CGSize(
             width:  rect.size.width  / CGFloat(self.size),
             height: rect.size.height / CGFloat(self.size)

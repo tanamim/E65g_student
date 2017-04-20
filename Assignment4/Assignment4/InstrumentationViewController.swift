@@ -10,9 +10,10 @@ import UIKit
 
 class InstrumentationViewController: UIViewController, UITextFieldDelegate {
 
-    @IBInspectable var size = 3
-    @IBInspectable var rate = 3.0
-    @IBInspectable var refresh = true
+    var appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
+    var size = 10
+    var rate = 3.0
+    var refresh = true
     @IBOutlet weak var sizeTextFieldRow: UITextField!
     @IBOutlet weak var sizeTextFieldCol: UITextField!
     @IBOutlet weak var sizeStepperRow: UIStepper!
@@ -27,6 +28,7 @@ class InstrumentationViewController: UIViewController, UITextFieldDelegate {
         sizeTextFieldCol.text = "\(size)"
         sizeStepperRow.value = Double(size)
         sizeStepperCol.value = Double(size)
+        appDelegate.size = size
     }
 
     override func didReceiveMemoryWarning() {
@@ -58,6 +60,8 @@ class InstrumentationViewController: UIViewController, UITextFieldDelegate {
         sizeTextFieldCol.text = "\(size)"
         sizeStepperRow.value = Double(size)
         sizeStepperCol.value = Double(size)
+        appDelegate.size = size
+
         print("size is " + String(size))
     }
     
@@ -89,6 +93,7 @@ class InstrumentationViewController: UIViewController, UITextFieldDelegate {
 //        print("ended")
         sizeTextFieldRow.text = "\(size)"
         sizeTextFieldCol.text = "\(size)"
+        appDelegate.size = size
         print("edit ended. size is " + String(size))
     }
     

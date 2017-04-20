@@ -197,6 +197,7 @@ protocol EngineProtocol {
 
 //@available(iOS 10.0, *)
 class StandardEngine: EngineProtocol {
+//    static var engine = StandardEngine(10, 10)
     var delegate: EngineDelegate?
     var grid: GridProtocol
     var rows: Int
@@ -234,9 +235,6 @@ class StandardEngine: EngineProtocol {
         return grid
     }
 }
-
-
-
 
 
 
