@@ -13,8 +13,12 @@ class SimulationViewController: UIViewController, EngineDelegate, UITabBarDelega
     
     @IBOutlet weak var step: UIButton!
     @IBOutlet weak var gridView: GridView!
+    @IBOutlet weak var sizeLabel: UILabel!
     
     let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
+    let minSize = 3
+    let maxSize = 100
+    let stepAmount = 5  // amount in Instrumentation is 10
     
     var engine: StandardEngine!
     var timer: Timer?
@@ -26,7 +30,8 @@ class SimulationViewController: UIViewController, EngineDelegate, UITabBarDelega
         // set initial size
         let size = appDelegate.instrumentation.size
         gridView.size = size
-
+        sizeLabel.text = "Size: \(size) x \(size)"
+        
         engine = StandardEngine(size, size)  // singleton
         engine.delegate = self
         
@@ -37,8 +42,9 @@ class SimulationViewController: UIViewController, EngineDelegate, UITabBarDelega
         let nc = NotificationCenter.default
         let name = Notification.Name(rawValue: "GridUpdate")
         nc.addObserver(forName: name, object: nil, queue: nil) { (n) in
-            print("Notification received. Now size is \(self.appDelegate.instrumentation.size)")
+            print("Notification received at Simulation. Now size is \(self.appDelegate.instrumentation.size)")
             self.gridView.size = self.appDelegate.instrumentation.size
+            self.sizeLabel.text = "Size: \(self.gridView.size) x \(self.gridView.size)"
             self.gridView.setNeedsDisplay()
         }
     }
@@ -60,12 +66,21 @@ class SimulationViewController: UIViewController, EngineDelegate, UITabBarDelega
     }
     
     
-    // Assignment3 Part6
-    @IBAction func pressStep(_ sender: Any) {
+    // Assignment3 Part6 (Modified)
+    @IBAction func pressStepUp(_ sender: Any) {
+        var size = appDelegate.instrumentation.size + stepAmount
+        size = min(max(size, minSize), maxSize)
+        appDelegate.instrumentation.size = size
+        gridView.size = size
+        var _ = engine.step()
+    }
 
-        print(appDelegate.instrumentation.size)
-        gridView.grid = gridView.grid.next()
-        gridView.setNeedsDisplay()
+    @IBAction func pressStepDown(_ sender: Any) {
+        var size = appDelegate.instrumentation.size - stepAmount
+        size = min(max(size, minSize), maxSize)
+        appDelegate.instrumentation.size = size
+        gridView.size = size
+        var _ = engine.step()
     }
     
     @IBAction func pressReset(_ sender: Any) {

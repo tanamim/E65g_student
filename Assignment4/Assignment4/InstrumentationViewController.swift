@@ -26,12 +26,25 @@ class InstrumentationViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        size = appDelegate.instrumentation.size  // update
         sizeTextFieldRow.text = "\(size)"
         sizeTextFieldCol.text = "\(size)"
         sizeStepperRow.value = Double(size)
         sizeStepperCol.value = Double(size)
-//        appDelegate.size = size
         appDelegate.instrumentation.size = size
+
+        // notification receiver
+        let nc = NotificationCenter.default
+        let name = Notification.Name(rawValue: "GridUpdate")
+        nc.addObserver(forName: name, object: nil, queue: nil) { (n) in
+            print("Notification received at Instrumentation. Now size is \(self.appDelegate.instrumentation.size)")
+            let size = self.appDelegate.instrumentation.size
+            self.sizeTextFieldRow.text = "\(size)"
+            self.sizeTextFieldCol.text = "\(size)"
+            self.sizeStepperRow.value = Double(size)
+            self.sizeStepperCol.value = Double(size)
+        }
+
     }
 
     override func didReceiveMemoryWarning() {
