@@ -10,7 +10,9 @@ import UIKit
 
 class InstrumentationViewController: UIViewController, UITextFieldDelegate {
 
-    var appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
+    let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
+    let minSize = 3
+    let maxSize = 100
     var size = 10
     var rate = 3.0
     var refresh = true
@@ -28,7 +30,8 @@ class InstrumentationViewController: UIViewController, UITextFieldDelegate {
         sizeTextFieldCol.text = "\(size)"
         sizeStepperRow.value = Double(size)
         sizeStepperCol.value = Double(size)
-        appDelegate.size = size
+//        appDelegate.size = size
+        appDelegate.instrumentation.size = size
     }
 
     override func didReceiveMemoryWarning() {
@@ -39,6 +42,7 @@ class InstrumentationViewController: UIViewController, UITextFieldDelegate {
     // Switch Event Handling
     @IBAction func refreshSwich(_ sender: UISwitch) {
         refresh = sender.isOn
+        appDelegate.instrumentation.refresh = refresh
         let on_off = refresh ? "ON" : "OFF"
         isRefresh.text = "Refresh: \(on_off)"
         print("refreshis " + on_off)
@@ -53,6 +57,7 @@ class InstrumentationViewController: UIViewController, UITextFieldDelegate {
 
     @IBAction func slided(_ sender: UISlider) {
         rate = (Double(sender.value) * 10).rounded() / 10
+        appDelegate.instrumentation.rate = rate
         print("rate is " + String(rate))
     }
     
@@ -60,12 +65,11 @@ class InstrumentationViewController: UIViewController, UITextFieldDelegate {
     // Stepper Event Handling
     @IBAction func step(_ sender: UIStepper) {
         size = Int(sender.value)
+        appDelegate.instrumentation.size = size
         sizeTextFieldRow.text = "\(size)"
         sizeTextFieldCol.text = "\(size)"
         sizeStepperRow.value = Double(size)
         sizeStepperCol.value = Double(size)
-        appDelegate.size = size
-
         print("size is " + String(size))
     }
     
@@ -88,16 +92,17 @@ class InstrumentationViewController: UIViewController, UITextFieldDelegate {
             }
             return
         }
-        size = val
+        size = min(max(val, minSize),maxSize)
         sizeStepperRow.value = Double(val)
         sizeStepperCol.value = Double(val)
+        
     }
     
     @IBAction func editingEnded(_ sender: UITextField) {
 //        print("ended")
         sizeTextFieldRow.text = "\(size)"
         sizeTextFieldCol.text = "\(size)"
-        appDelegate.size = size
+        appDelegate.instrumentation.size = size
         print("edit ended. size is " + String(size))
     }
     

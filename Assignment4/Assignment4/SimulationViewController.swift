@@ -22,18 +22,9 @@ class SimulationViewController: UIViewController, EngineDelegate, UITabBarDelega
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
- 
-        // notification receiver
-        let nc = NotificationCenter.default
-        let name = Notification.Name(rawValue: "GridUpdate")
-        nc.addObserver(forName: name, object: nil, queue: nil) { (n) in
-            print("Notification received. Now size is \(self.appDelegate.size)")
-            self.gridView.size = self.appDelegate.size
-            self.gridView.setNeedsDisplay()
-        }
         
         // set initial size
-        let size = appDelegate.size
+        let size = appDelegate.instrumentation.size
         gridView.size = size
 
         engine = StandardEngine(size, size)  // singleton
@@ -41,7 +32,15 @@ class SimulationViewController: UIViewController, EngineDelegate, UITabBarDelega
         
         gridView.setNeedsDisplay()
         print("Now the size is \(size)")
-        
+ 
+        // notification receiver
+        let nc = NotificationCenter.default
+        let name = Notification.Name(rawValue: "GridUpdate")
+        nc.addObserver(forName: name, object: nil, queue: nil) { (n) in
+            print("Notification received. Now size is \(self.appDelegate.instrumentation.size)")
+            self.gridView.size = self.appDelegate.instrumentation.size
+            self.gridView.setNeedsDisplay()
+        }
     }
 
     func engineDidUpdate(withGrid: GridProtocol) {
@@ -64,7 +63,7 @@ class SimulationViewController: UIViewController, EngineDelegate, UITabBarDelega
     // Assignment3 Part6
     @IBAction func pressStep(_ sender: Any) {
 
-        print(appDelegate.size)
+        print(appDelegate.instrumentation.size)
         gridView.grid = gridView.grid.next()
         gridView.setNeedsDisplay()
     }

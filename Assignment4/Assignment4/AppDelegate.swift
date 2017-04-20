@@ -16,24 +16,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var viewControllers: [UIViewController] = []
 
     struct Instrumentation {
-        let size: Int
-        let rate: Double
-        let refresh: Bool
+        var size: Int
+        var rate: Double
+        var refresh: Bool
     }
 
-    
-    
-    //    var size: Int = 10  // shared value
-    var size: Int = 10 {
+    var instrumentation = Instrumentation(
+    size: 10, rate: 3.0, refresh: true) {
         didSet {
-            print("AppDelegate: size is now \(size)")
+            print("AppDelegate: instrumentation.size is \(self.instrumentation.size)")
+            print("AppDelegate: instrumentation.rate is \(self.instrumentation.rate)")
+            print("AppDelegate: instrumentation.refresh is \(self.instrumentation.refresh)")
             let nc = NotificationCenter.default
             let name = Notification.Name(rawValue: "GridUpdate")
             let n = Notification(name: name, object: nil, userInfo: ["AppDelegate": self])
             nc.post(n)
         }
     }
-    
+        
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         return true
