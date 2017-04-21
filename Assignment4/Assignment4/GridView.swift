@@ -131,5 +131,31 @@ import UIKit
         let position = (row: Int(row), col: Int(col))
         return position
     }
+
+    // Statistics globals GridStat updater.
+    func statGenerate(_ grid: GridProtocol) -> Void {
+        var alive = 0
+        var born = 0
+        var died = 0
+        var empty = 0
+        print(self.size)
+        (0 ..< self.size).forEach { i in
+            (0 ..< self.size).forEach { j in
+                switch grid[(i,j)] {
+                case .alive: alive += 1
+                case .born:  born += 1
+                case .died:  died += 1
+                case .empty: empty += 1
+                }
+            }
+        }
+        print(alive, born, died, empty)
+        let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
+        appDelegate.gridStat.alive = alive
+        appDelegate.gridStat.born = born
+        appDelegate.gridStat.died = died
+        appDelegate.gridStat.empty = empty
+    }
+
 }
 

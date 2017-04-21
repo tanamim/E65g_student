@@ -8,17 +8,6 @@ public typealias GridSize = (rows: Int, cols: Int)
 
 fileprivate func norm(_ val: Int, to size: Int) -> Int { return ((val % size) + size) % size }
 
-//public enum CellState {
-//    case alive, empty, born, died
-//    
-//    public var isAlive: Bool {
-//        switch self {
-//        case .alive, .born: return true
-//        default: return false
-//        }
-//    }
-//}
-
 public enum CellState : String {
     // Assignment3 Part1
     case alive = "alive"
@@ -232,9 +221,16 @@ class StandardEngine: EngineProtocol {
         delegate?.engineDidUpdate(withGrid: grid)
         return grid
     }
+
+    func statPublish() -> Void {
+        print("statPublish!")        
+        // notification pualisher
+        let nc = NotificationCenter.default
+        let name = Notification.Name(rawValue: "StatUpdate")
+        let n = Notification(name: name, object: nil, userInfo: ["StandardEngine": self])
+        nc.post(n)
+    }
 }
-
-
 
 
 

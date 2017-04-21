@@ -11,9 +11,9 @@ import UIKit
 class SimulationViewController: UIViewController, EngineDelegate, UITabBarDelegate {
 
     
-    @IBOutlet weak var step: UIButton!
+//    @IBOutlet weak var step: UIButton!
     @IBOutlet weak var gridView: GridView!
-    @IBOutlet weak var sizeLabel: UILabel!
+    @IBOutlet weak var sizeLabel: UILabel!  // shows like (Size: 10 x 10)
     
     let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
     let minSize = 3
@@ -38,11 +38,11 @@ class SimulationViewController: UIViewController, EngineDelegate, UITabBarDelega
         gridView.setNeedsDisplay()
         print("Now the size is \(size)")
  
-        // notification receiver
+        // notification [GridUpdate] receiver
         let nc = NotificationCenter.default
         let name = Notification.Name(rawValue: "GridUpdate")
         nc.addObserver(forName: name, object: nil, queue: nil) { (n) in
-            print("Notification received at Simulation. Now size is \(self.appDelegate.instrumentation.size)")
+            print("Notification [GridUpdate] received at [Simulation]. Now size is \(self.appDelegate.instrumentation.size)")
             self.gridView.size = self.appDelegate.instrumentation.size
             self.sizeLabel.text = "Size: \(self.gridView.size) x \(self.gridView.size)"
             self.gridView.setNeedsDisplay()
@@ -50,6 +50,8 @@ class SimulationViewController: UIViewController, EngineDelegate, UITabBarDelega
     }
 
     func engineDidUpdate(withGrid: GridProtocol) {
+        gridView.statGenerate(gridView.grid)
+        engine.statPublish()
         self.gridView.setNeedsDisplay()
     }
 
@@ -62,6 +64,8 @@ class SimulationViewController: UIViewController, EngineDelegate, UITabBarDelega
     
     @IBAction func next (_ sender: Any) {
         gridView.grid = gridView.grid.next()
+        gridView.statGenerate(gridView.grid)
+        engine.statPublish()
         gridView.setNeedsDisplay()
     }
     
@@ -85,6 +89,8 @@ class SimulationViewController: UIViewController, EngineDelegate, UITabBarDelega
     
     @IBAction func pressReset(_ sender: Any) {
         gridView.grid = Grid(gridView.size, gridView.size)
+        gridView.statGenerate(gridView.grid)
+        engine.statPublish()
         gridView.setNeedsDisplay()
     }
 

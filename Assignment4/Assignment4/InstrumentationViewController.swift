@@ -37,7 +37,7 @@ class InstrumentationViewController: UIViewController, UITextFieldDelegate {
         let nc = NotificationCenter.default
         let name = Notification.Name(rawValue: "GridUpdate")
         nc.addObserver(forName: name, object: nil, queue: nil) { (n) in
-            print("Notification received at Instrumentation. Now size is \(self.appDelegate.instrumentation.size)")
+            print("Notification [GridUpdate] received at [Instrumentation]. Now size is \(self.appDelegate.instrumentation.size)")
             let size = self.appDelegate.instrumentation.size
             self.sizeTextFieldRow.text = "\(size)"
             self.sizeTextFieldCol.text = "\(size)"
@@ -89,15 +89,15 @@ class InstrumentationViewController: UIViewController, UITextFieldDelegate {
 
     // TextField Event Handling
     @IBAction func editingBegan(_ sender: UITextField) {
-//        print("began")
+        print("began")
     }
     
     @IBAction func editingChanged(_ sender: UITextField) {
-//        print("changed")
+        print("changed")
     }
     
     @IBAction func editingEndedOnExit(_ sender: UITextField) {
-//        print("ended on exit")
+        print("ended on exit")
         guard let text = sender.text else { return }
         guard let val = Int(text) else {
             showErrorAlert(withMessage: "Invalid value: \(text), please try again.") {
@@ -112,7 +112,7 @@ class InstrumentationViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func editingEnded(_ sender: UITextField) {
-//        print("ended")
+        print("ended")
         sizeTextFieldRow.text = "\(size)"
         sizeTextFieldCol.text = "\(size)"
         appDelegate.instrumentation.size = size
