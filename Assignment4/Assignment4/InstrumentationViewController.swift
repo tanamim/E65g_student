@@ -117,6 +117,11 @@ class InstrumentationViewController: UIViewController, UITextFieldDelegate {
         sizeTextFieldCol.text = "\(size)"
         appDelegate.instrumentation.size = size
         print("edit ended. size is " + String(size))
+
+        // DEBUG
+        StandardEngine.engine.rows = size
+        StandardEngine.engine.cols = size
+        StandardEngine.engine.sayHello2()
     }
     
     //MARK: AlertController Handling

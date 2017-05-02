@@ -22,6 +22,7 @@ class SimulationViewController: UIViewController, EngineDelegate, UITabBarDelega
     
     var engine: StandardEngine!
     var timer: Timer?
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,25 +32,26 @@ class SimulationViewController: UIViewController, EngineDelegate, UITabBarDelega
         let size = appDelegate.instrumentation.size
         gridView.size = size
         sizeLabel.text = "Size: \(size) x \(size)"
-        
-        engine = StandardEngine(size, size)  // singleton
-        engine.delegate = self
+
+        engine = StandardEngine.engine  // singleton
+        engine.delegate = self  // no need. [DEBUG]
         
         gridView.setNeedsDisplay()
         print("Now the size is \(size)")
  
         // notification [GridUpdate] receiver
-        let nc = NotificationCenter.default
-        let name = Notification.Name(rawValue: "GridUpdate")
-        nc.addObserver(forName: name, object: nil, queue: nil) { (n) in
-            print("Notification [GridUpdate] received at [Simulation]. Now size is \(self.appDelegate.instrumentation.size)")
-            self.gridView.size = self.appDelegate.instrumentation.size
-            self.sizeLabel.text = "Size: \(self.gridView.size) x \(self.gridView.size)"
-            self.gridView.setNeedsDisplay()
-        }
+//        let nc = NotificationCenter.default
+//        let name = Notification.Name(rawValue: "GridUpdate")
+//        nc.addObserver(forName: name, object: nil, queue: nil) { (n) in
+//            print("Notification [GridUpdate] received at [Simulation]. Now size is \(self.appDelegate.instrumentation.size)")
+//            self.gridView.size = self.appDelegate.instrumentation.size
+//            self.sizeLabel.text = "Size: \(self.gridView.size) x \(self.gridView.size)"
+//            self.gridView.setNeedsDisplay()
+//        }
     }
 
     func engineDidUpdate(withGrid: GridProtocol) {
+        gridView.grid = gridView.grid.next()  // DEBUG
         gridView.statGenerate(gridView.grid)
         engine.statPublish()
         self.gridView.setNeedsDisplay()
@@ -63,15 +65,27 @@ class SimulationViewController: UIViewController, EngineDelegate, UITabBarDelega
 
     
     @IBAction func next (_ sender: Any) {
-        gridView.grid = gridView.grid.next()
-        gridView.statGenerate(gridView.grid)
-        engine.statPublish()
-        gridView.setNeedsDisplay()
+//        gridView.grid = gridView.grid.next()
+//        gridView.statGenerate(gridView.grid)
+//        engine.statPublish()
+//        gridView.setNeedsDisplay()
+
+//                engine.delegate?.engineDidUpdate(withGrid: gridView.grid)
+        var _ = engine.step()
+//        self.engineDidUpdate(withGrid: gridView.grid)
     }
     
     
     // Assignment3 Part6 (Modified)
     @IBAction func pressStepUp(_ sender: Any) {
+        var size = appDelegate.instrumentation.size + stepAmount
+        size = min(max(size, minSize), maxSize)
+        appDelegate.instrumentation.size = size
+        gridView.size = size
+        var _ = engine.step()
+    }
+
+    @IBAction func pressStepUp_bak(_ sender: Any) {
         var size = appDelegate.instrumentation.size + stepAmount
         size = min(max(size, minSize), maxSize)
         appDelegate.instrumentation.size = size

@@ -24,7 +24,8 @@ class StatisticsViewController: UIViewController {
         self.aliveLabel.text = "alive: \(appDelegate.gridStat.alive)"
         self.bornLabel.text = "born: \(appDelegate.gridStat.born)"
         self.diedLabel.text = "died: \(appDelegate.gridStat.died)"
-        self.emptyLabel.text = "empty: all"  // initially all is empty
+        self.emptyLabel.text = "empty: \(appDelegate.gridStat.empty)"  // [Update]
+//        self.emptyLabel.text = "empty: all"  // initially all is empty
         
         
         // notification [StatUpdate] receiver from simulation

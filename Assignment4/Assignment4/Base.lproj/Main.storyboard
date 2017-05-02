@@ -313,15 +313,15 @@
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
-                                <exclude reference="yTU-WU-96i"/>
                                 <exclude reference="Di5-tI-fpZ"/>
+                                <exclude reference="yTU-WU-96i"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=compact">
                             <mask key="constraints">
-                                <include reference="yTU-WU-96i"/>
                                 <exclude reference="6Dd-II-59Y"/>
                                 <include reference="Di5-tI-fpZ"/>
+                                <include reference="yTU-WU-96i"/>
                             </mask>
                         </variation>
                     </view>

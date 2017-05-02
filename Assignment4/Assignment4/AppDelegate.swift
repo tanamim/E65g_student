@@ -42,6 +42,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             print("AppDelegate: instrumentation.refresh is \(self.instrumentation.refresh)")
 
             gridStat = GridStat(alive: 0, born: 0, died: 0, empty: self.instrumentation.size * self.instrumentation.size)
+
+            StandardEngine.engine.statPublish()  // DEBUG
+            StandardEngine.engine.sayHello()  // DEBUG
+            
             
             // notification [GridUpdate] pualisher
             let nc = NotificationCenter.default

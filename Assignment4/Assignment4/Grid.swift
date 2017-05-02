@@ -209,7 +209,9 @@ class StandardEngine: EngineProtocol {
         }
     }
     
-    required init(_ rows: Int, _ cols: Int) {
+    static let engine = StandardEngine(10, 10)  // Shared instance
+    
+    internal required init(_ rows: Int, _ cols: Int) {
         self.rows = rows
         self.cols = cols
         self.grid = Grid(rows, cols)
@@ -222,6 +224,23 @@ class StandardEngine: EngineProtocol {
         return grid
     }
 
+//    // DEBUG
+//    func refreshSimulation() -> Void {
+//        print("refreshSimulation!")
+//        let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
+//        let size = appDelegate.instrumentation.size
+//        self.grid = Grid(size, size)
+//        self.grid.setNeedsDisplay()
+//    }
+//    
+    func sayHello() -> Void {
+        print("[Hello!! size is \(self.rows)]")
+    }
+    
+    func sayHello2() -> Void {
+        print("[Hello2!! size is \(self.rows)]")
+    }
+    
     func statPublish() -> Void {
         print("statPublish!")        
         // notification pualisher
