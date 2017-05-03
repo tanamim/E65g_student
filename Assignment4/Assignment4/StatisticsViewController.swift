@@ -28,43 +28,16 @@ class StatisticsViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-//        let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
-
         engine = StandardEngine.engine
         drawStat()
-        
-//        self.aliveLabel.text = "alive: \(appDelegate.gridStat.alive)"
-//        self.bornLabel.text = "born: \(appDelegate.gridStat.born)"
-//        self.diedLabel.text = "died: \(appDelegate.gridStat.died)"
-//        self.emptyLabel.text = "empty: \(appDelegate.gridStat.empty)"  // [Update]
-//        self.emptyLabel.text = "empty: all"  // initially all is empty
-        
         
         // notification [StatUpdate] receiver catches grid size chages
         let nc = NotificationCenter.default
         let name = Notification.Name(rawValue: "StatUpdate")
         nc.addObserver(forName: name, object: nil, queue: nil) { (n) in
-//            let stat = appDelegate.gridStat
             print("Notification [StatUpdate] received at [Statistics].")
-//            self.aliveLabel.text = "alive: \(appDelegate.gridStat.alive)"
-//            self.bornLabel.text = "born: \(appDelegate.gridStat.born)"
-//            self.diedLabel.text = "died: \(appDelegate.gridStat.died)"
-//            self.emptyLabel.text = "empty: \(appDelegate.gridStat.empty)"
             self.drawStat()
         }
-
-        // notification [GridUpdate] receiver from instrumentation
-//        let nc2 = NotificationCenter.default
-//        let name2 = Notification.Name(rawValue: "GridUpdate")
-//        nc2.addObserver(forName: name2, object: nil, queue: nil) { (n) in
-//            let stat = appDelegate.gridStat
-//            print("Notification [GridUpdate] received at [Statistics].", stat)
-//            self.aliveLabel.text = "alive: \(appDelegate.gridStat.alive)"
-//            self.bornLabel.text = "born: \(appDelegate.gridStat.born)"
-//            self.diedLabel.text = "died: \(appDelegate.gridStat.died)"
-//            self.emptyLabel.text = "empty: \(appDelegate.gridStat.empty)"
-//        }
-    
     }
 
     override func didReceiveMemoryWarning() {

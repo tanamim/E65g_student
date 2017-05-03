@@ -193,7 +193,6 @@ struct GridStat {
     var empty: Int
 }
 
-
 //@available(iOS 10.0, *)
 class StandardEngine: EngineProtocol {
     var delegate: EngineDelegate?
@@ -224,8 +223,8 @@ class StandardEngine: EngineProtocol {
         }
     }
     
+    // Instantiate Singleton
     static let engine = StandardEngine(10, 10)  // Shared instance
-    
     internal required init(_ rows: Int, _ cols: Int) {
         self.rows = rows
         self.cols = cols
@@ -234,26 +233,16 @@ class StandardEngine: EngineProtocol {
         self.refreshRate = 3.0
         self.isRefresh = false
     }
-    
+
     func step() -> GridProtocol {
-        grid = grid.next()
+//        grid = grid.next()
         delegate?.engineDidUpdate(withGrid: grid)
         return grid
     }
 
-    // DEBUG
-    func refreshSimulation() -> Void {
-        print("refreshSimulation! rows: \(rows) cols: \(cols)")
+    func renew() -> Void {
         grid = Grid(rows, cols)
         delegate?.engineDidUpdate(withGrid: grid)
-    }
-    
-    func sayHello() -> Void {
-        print("[Hello!! size is \(self.rows)]")
-    }
-    
-    func sayHello2() -> Void {
-        print("[Hello2!! size is \(self.rows)]")
     }
     
     // Statistics updater.
@@ -272,7 +261,6 @@ class StandardEngine: EngineProtocol {
                 }
             }
         }
-        print(alive, born, died, empty)
         self.gridStat.alive = alive
         self.gridStat.born = born
         self.gridStat.died = died
@@ -292,10 +280,6 @@ class StandardEngine: EngineProtocol {
         nc.post(n)
     }
 }
-
-
-
-
 
 
 

@@ -12,50 +12,6 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
-//    var viewControllers: [UIViewController] = []
-
-    // Globals for instrumentation and simulation
-//    struct Instrumentation {
-//        var size: Int
-//        var rate: Double
-//        var refresh: Bool
-//    }
-
-//    // Globals for Statistics
-//    struct GridStat {
-//        var alive: Int
-//        var born: Int
-//        var died: Int
-//        var empty: Int
-//    }
-//
-//    // this value will be changed by StatUpdate notification
-//    var gridStat = GridStat(alive: 0, born: 0, died: 0, empty: 100)
-
-    // monitor Globals for instrumentation and publish GridUpdate notification
-//    var instrumentation = Instrumentation(
-//    size: 10, rate: 3.0, refresh: true) {
-//        didSet {
-//            print("AppDelegate: instrumentation.size is \(self.instrumentation.size)")
-//            print("AppDelegate: instrumentation.rate is \(self.instrumentation.rate)")
-//            print("AppDelegate: instrumentation.refresh is \(self.instrumentation.refresh)")
-//
-//            gridStat = GridStat(alive: 0, born: 0, died: 0, empty: self.instrumentation.size * self.instrumentation.size)
-//
-//            StandardEngine.engine.statPublish()  // DEBUG
-//            StandardEngine.engine.sayHello()  // DEBUG
-//            StandardEngine.engine.refreshSimulation()  // DEBUG
-    
-            
-            // notification [GridUpdate] pualisher
-//            let nc = NotificationCenter.default
-//            let name = Notification.Name(rawValue: "GridUpdate")
-//            let n = Notification(name: name, object: nil, userInfo: ["AppDelegate": self])
-//            nc.post(n)
-//        }
-//    }
-    
     
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
