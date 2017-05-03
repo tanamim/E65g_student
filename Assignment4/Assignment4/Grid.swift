@@ -184,13 +184,28 @@ protocol EngineProtocol {
     func step() -> GridProtocol
 }
 
+
+// for Statistics
+struct GridStat {
+    var alive: Int
+    var born: Int
+    var died: Int
+    var empty: Int
+}
+
+
 //@available(iOS 10.0, *)
 class StandardEngine: EngineProtocol {
     var delegate: EngineDelegate?
     var rows: Int
     var cols: Int
+
+    // this value will be changed by StatUpdate notification
+    var gridStat: GridStat
+    
     var grid: GridProtocol
     var refreshRate: Double
+    var isRefresh: Bool  // Dev
     var refreshTimer: Timer?
     var timerInterval: TimeInterval = 0.0 {
         didSet {
@@ -214,8 +229,10 @@ class StandardEngine: EngineProtocol {
     internal required init(_ rows: Int, _ cols: Int) {
         self.rows = rows
         self.cols = cols
+        self.gridStat = GridStat(alive: 0, born: 0, died: 0, empty: 100)
         self.grid = Grid(rows, cols)
-        self.refreshRate = 0.0
+        self.refreshRate = 3.0
+        self.isRefresh = false
     }
     
     func step() -> GridProtocol {
@@ -224,15 +241,13 @@ class StandardEngine: EngineProtocol {
         return grid
     }
 
-//    // DEBUG
-//    func refreshSimulation() -> Void {
-//        print("refreshSimulation!")
-//        let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
-//        let size = appDelegate.instrumentation.size
-//        self.grid = Grid(size, size)
-//        self.grid.setNeedsDisplay()
-//    }
-//    
+    // DEBUG
+    func refreshSimulation() -> Void {
+        print("refreshSimulation! rows: \(rows) cols: \(cols)")
+        grid = Grid(rows, cols)
+        delegate?.engineDidUpdate(withGrid: grid)
+    }
+    
     func sayHello() -> Void {
         print("[Hello!! size is \(self.rows)]")
     }
@@ -241,8 +256,35 @@ class StandardEngine: EngineProtocol {
         print("[Hello2!! size is \(self.rows)]")
     }
     
+    // Statistics updater.
+    func statGenerate() -> Void {
+        var alive = 0
+        var born = 0
+        var died = 0
+        var empty = 0
+        (0 ..< self.rows).forEach { i in
+            (0 ..< self.cols).forEach { j in
+                switch grid[(i,j)] {
+                case .alive: alive += 1
+                case .born:  born += 1
+                case .died:  died += 1
+                case .empty: empty += 1
+                }
+            }
+        }
+        print(alive, born, died, empty)
+        self.gridStat.alive = alive
+        self.gridStat.born = born
+        self.gridStat.died = died
+        self.gridStat.empty = empty
+        print("statGenerate", alive, born, died, empty)
+    }
+    
     func statPublish() -> Void {
-        print("statPublish!")        
+        print("statPublish!")
+
+        self.statGenerate() // DEBUG
+        
         // notification pualisher
         let nc = NotificationCenter.default
         let name = Notification.Name(rawValue: "StatUpdate")

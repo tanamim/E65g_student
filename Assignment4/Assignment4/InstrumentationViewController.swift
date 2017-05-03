@@ -10,41 +10,58 @@ import UIKit
 
 class InstrumentationViewController: UIViewController, UITextFieldDelegate {
 
-    let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
+//    let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
     let minSize = 3
     let maxSize = 100
-    var size = 10
-    var rate = 3.0
-    var refresh = true
+    
+    var engine: StandardEngine!
+//    var size = 10
+//    var refreshRate = 3.0
+//    var isRefresh = true
     @IBOutlet weak var sizeTextFieldRow: UITextField!
     @IBOutlet weak var sizeTextFieldCol: UITextField!
     @IBOutlet weak var sizeStepperRow: UIStepper!
     @IBOutlet weak var sizeStepperCol: UIStepper!
-    @IBOutlet weak var refreshRate: UILabel!
-    @IBOutlet weak var isRefresh: UILabel!
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        size = appDelegate.instrumentation.size  // update
+    @IBOutlet weak var rateLabel: UILabel!
+    @IBOutlet weak var refreshLabel: UILabel!
+
+    internal func drawInst() -> Void {
+        let size = engine.rows
         sizeTextFieldRow.text = "\(size)"
         sizeTextFieldCol.text = "\(size)"
         sizeStepperRow.value = Double(size)
         sizeStepperCol.value = Double(size)
-        appDelegate.instrumentation.size = size
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // Do any additional setup after loading the view, typically from a nib.
+//        size = appDelegate.instrumentation.size  // update
+        engine = StandardEngine.engine
+//        size = StandardEngine.engine.cols
+//        refreshRate = StandardEngine.engine.refreshRate
+        drawInst()
+        
+//        sizeTextFieldRow.text = "\(size)"
+//        sizeTextFieldCol.text = "\(size)"
+//        sizeStepperRow.value = Double(size)
+//        sizeStepperCol.value = Double(size)
 
-        // notification receiver
+        //        appDelegate.instrumentation.size = size
+
+        // To receive changes when simulation controller (+) (-) modified the size
         let nc = NotificationCenter.default
         let name = Notification.Name(rawValue: "GridUpdate")
         nc.addObserver(forName: name, object: nil, queue: nil) { (n) in
-            print("Notification [GridUpdate] received at [Instrumentation]. Now size is \(self.appDelegate.instrumentation.size)")
-            let size = self.appDelegate.instrumentation.size
-            self.sizeTextFieldRow.text = "\(size)"
-            self.sizeTextFieldCol.text = "\(size)"
-            self.sizeStepperRow.value = Double(size)
-            self.sizeStepperCol.value = Double(size)
+//            let size = self.appDelegate.instrumentation.size
+//            let size = StandardEngine.engine.rows
+            print("Notification [GridUpdate] received at [Instrumentation]")
+//            self.sizeTextFieldRow.text = "\(size)"
+//            self.sizeTextFieldCol.text = "\(size)"
+//            self.sizeStepperRow.value = Double(size)
+//            self.sizeStepperCol.value = Double(size)
+            self.drawInst()
         }
-
     }
 
     override func didReceiveMemoryWarning() {
@@ -54,36 +71,50 @@ class InstrumentationViewController: UIViewController, UITextFieldDelegate {
 
     // Switch Event Handling
     @IBAction func refreshSwich(_ sender: UISwitch) {
-        refresh = sender.isOn
-        appDelegate.instrumentation.refresh = refresh
-        let on_off = refresh ? "ON" : "OFF"
-        isRefresh.text = "Refresh: \(on_off)"
-        print("refreshis " + on_off)
+        engine.isRefresh = sender.isOn
+//        appDelegate.instrumentation.refresh = isRefresh
+//        StandardEngine.engine.isRefresh = isRefresh
+        let on_off = engine.isRefresh ? "ON" : "OFF"
+        refreshLabel.text = "Refresh: \(on_off)"
+        print("Refresh " + on_off)
     }
     
     
     // Slider Event Handling
     @IBAction func slide(_ sender: UISlider) {
-        rate = (Double(sender.value) * 10).rounded() / 10
-        refreshRate.text = "\(rate) Hz"
+        let tmpRate = (Double(sender.value) * 10).rounded() / 10
+        rateLabel.text = "\(tmpRate) Hz"
     }
 
+    
     @IBAction func slided(_ sender: UISlider) {
-        rate = (Double(sender.value) * 10).rounded() / 10
-        appDelegate.instrumentation.rate = rate
-        print("rate is " + String(rate))
+        engine.refreshRate = (Double(sender.value) * 10).rounded() / 10
+//        appDelegate.instrumentation.rate = refreshRate
+//        engine.refreshRate = refreshRate
+        print("rate is " + String(engine.refreshRate))
     }
     
     
     // Stepper Event Handling
     @IBAction func step(_ sender: UIStepper) {
-        size = Int(sender.value)
-        appDelegate.instrumentation.size = size
-        sizeTextFieldRow.text = "\(size)"
-        sizeTextFieldCol.text = "\(size)"
-        sizeStepperRow.value = Double(size)
-        sizeStepperCol.value = Double(size)
-        print("size is " + String(size))
+        let size = Int(sender.value)
+        engine.rows = size
+        engine.cols = size
+        //        appDelegate.instrumentation.size = size
+
+        drawInst()
+//        sizeTextFieldRow.text = "\(size)"
+//        sizeTextFieldCol.text = "\(size)"
+//        sizeStepperRow.value = Double(size)
+//        sizeStepperCol.value = Double(size)
+        print("size is " + String(engine.rows))
+
+        // DEBUG
+//        StandardEngine.engine.rows = size
+//        StandardEngine.engine.cols = size
+        engine.refreshSimulation()
+        engine.statPublish()  // DEBUG
+        print("DEBUG-size is \(engine.rows)")
     }
     
 
@@ -101,27 +132,31 @@ class InstrumentationViewController: UIViewController, UITextFieldDelegate {
         guard let text = sender.text else { return }
         guard let val = Int(text) else {
             showErrorAlert(withMessage: "Invalid value: \(text), please try again.") {
-                sender.text = "\(self.size)"
+                sender.text = "\(self.engine.rows)"
             }
             return
         }
-        size = min(max(val, minSize),maxSize)
-        sizeStepperRow.value = Double(val)
-        sizeStepperCol.value = Double(val)
-        
+        let size = min(max(val, minSize),maxSize)
+        engine.rows = size
+        engine.cols = size
+//        drawInst()
+//        sizeStepperRow.value = Double(size)
+//        sizeStepperCol.value = Double(size)
     }
     
     @IBAction func editingEnded(_ sender: UITextField) {
         print("ended")
-        sizeTextFieldRow.text = "\(size)"
-        sizeTextFieldCol.text = "\(size)"
-        appDelegate.instrumentation.size = size
-        print("edit ended. size is " + String(size))
+        drawInst()
+//        sizeTextFieldRow.text = "\(size)"
+//        sizeTextFieldCol.text = "\(size)"
+//        appDelegate.instrumentation.size = size
+        print("edit ended. size is " + String(engine.rows))
 
         // DEBUG
-        StandardEngine.engine.rows = size
-        StandardEngine.engine.cols = size
-        StandardEngine.engine.sayHello2()
+//        StandardEngine.engine.rows = size
+//        StandardEngine.engine.cols = size
+        engine.refreshSimulation()
+//        print("DEBUG-size is \(size)")
     }
     
     //MARK: AlertController Handling
@@ -138,6 +173,5 @@ class InstrumentationViewController: UIViewController, UITextFieldDelegate {
         alert.addAction(okAction)
         self.present(alert, animated: true, completion: nil)
     }
-    
 }
 

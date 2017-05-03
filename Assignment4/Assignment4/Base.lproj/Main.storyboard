@@ -163,8 +163,8 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="Instrumentation" image="Instrumentation" selectedImage="Instrumentation" id="acW-dT-cKf" userLabel="Instrumentation"/>
                     <connections>
-                        <outlet property="isRefresh" destination="P42-sA-WXG" id="enV-ze-ERR"/>
-                        <outlet property="refreshRate" destination="r7t-sg-noL" id="hHl-L0-K5Y"/>
+                        <outlet property="rateLabel" destination="r7t-sg-noL" id="IfY-Ko-pI8"/>
+                        <outlet property="refreshLabel" destination="P42-sA-WXG" id="sLK-vk-cMC"/>
                         <outlet property="sizeStepperCol" destination="jSU-iB-BT8" id="5Gc-ch-Sqa"/>
                         <outlet property="sizeStepperRow" destination="lo2-zV-BNF" id="9l0-pu-xE8"/>
                         <outlet property="sizeTextFieldCol" destination="fAt-0d-0bu" id="jrJ-Sy-lhB"/>

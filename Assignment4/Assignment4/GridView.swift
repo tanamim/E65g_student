@@ -11,9 +11,17 @@ import UIKit
 @IBDesignable class GridView: UIView {
 
     // Assignment3 Part2
+//    @IBInspectable var size: Int = StandardEngine.engine.cols  // DEBUG
     @IBInspectable var size: Int = 10 {  // Default
         didSet {
             grid = Grid(size, size)      // Reinitialize when Inspectable size property chages
+
+            print("GridUpdate Publish!") // Refresh Instrumentaion view when grid is reset
+            // notification [GridUpdate] pualisher
+            let nc = NotificationCenter.default
+            let name = Notification.Name(rawValue: "GridUpdate")
+            let n = Notification(name: name, object: nil, userInfo: ["GridView": self])
+            nc.post(n)
         }
     }
     
@@ -25,7 +33,8 @@ import UIKit
     @IBInspectable var gridColor:   UIColor = UIColor.black
     @IBInspectable var gridWidth:   CGFloat = CGFloat(2.0)
     
-    var grid = Grid(3, 3)
+    var grid = Grid(10, 10)
+//    var grid = StandardEngine.engine.grid  // DEBUG
     
     override func draw(_ rect: CGRect) {
         // Assignment3 Part4
@@ -132,30 +141,30 @@ import UIKit
         return position
     }
 
-    // Statistics globals GridStat updater.
-    func statGenerate(_ grid: GridProtocol) -> Void {
-        var alive = 0
-        var born = 0
-        var died = 0
-        var empty = 0
-        print(self.size)
-        (0 ..< self.size).forEach { i in
-            (0 ..< self.size).forEach { j in
-                switch grid[(i,j)] {
-                case .alive: alive += 1
-                case .born:  born += 1
-                case .died:  died += 1
-                case .empty: empty += 1
-                }
-            }
-        }
-        print(alive, born, died, empty)
-        let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
-        appDelegate.gridStat.alive = alive
-        appDelegate.gridStat.born = born
-        appDelegate.gridStat.died = died
-        appDelegate.gridStat.empty = empty
-    }
+//    // Statistics globals GridStat updater.
+//    func statGenerate(_ grid: GridProtocol) -> Void {
+//        var alive = 0
+//        var born = 0
+//        var died = 0
+//        var empty = 0
+//        print(self.size)
+//        (0 ..< self.size).forEach { i in
+//            (0 ..< self.size).forEach { j in
+//                switch grid[(i,j)] {
+//                case .alive: alive += 1
+//                case .born:  born += 1
+//                case .died:  died += 1
+//                case .empty: empty += 1
+//                }
+//            }
+//        }
+//        print(alive, born, died, empty)
+//        let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
+//        appDelegate.gridStat.alive = alive
+//        appDelegate.gridStat.born = born
+//        appDelegate.gridStat.died = died
+//        appDelegate.gridStat.empty = empty
+//    }
 
 }
 
