@@ -113,13 +113,13 @@
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" alignment="center" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="L0g-qy-xgj">
                                                 <rect key="frame" x="10" y="138" width="178" height="31"/>
                                                 <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Refresh: ON" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="P42-sA-WXG">
-                                                        <rect key="frame" x="0.0" y="5.5" width="93" height="20.5"/>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Refresh: Off" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="P42-sA-WXG">
+                                                        <rect key="frame" x="0.0" y="5.5" width="92.5" height="20.5"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GR3-LU-MfD">
+                                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="GR3-LU-MfD">
                                                         <rect key="frame" x="129" y="0.0" width="51" height="31"/>
                                                         <connections>
                                                             <action selector="refreshSwich:" destination="9pv-A4-QxB" eventType="valueChanged" id="23c-ZE-XvX"/>
@@ -164,7 +164,9 @@
                     <tabBarItem key="tabBarItem" title="Instrumentation" image="Instrumentation" selectedImage="Instrumentation" id="acW-dT-cKf" userLabel="Instrumentation"/>
                     <connections>
                         <outlet property="rateLabel" destination="r7t-sg-noL" id="IfY-Ko-pI8"/>
+                        <outlet property="rateSlider" destination="C1v-IE-oWz" id="W29-hi-Ghg"/>
                         <outlet property="refreshLabel" destination="P42-sA-WXG" id="sLK-vk-cMC"/>
+                        <outlet property="refreshSwitch" destination="GR3-LU-MfD" id="69u-jl-EQu"/>
                         <outlet property="sizeStepperCol" destination="jSU-iB-BT8" id="5Gc-ch-Sqa"/>
                         <outlet property="sizeStepperRow" destination="lo2-zV-BNF" id="9l0-pu-xE8"/>
                         <outlet property="sizeTextFieldCol" destination="fAt-0d-0bu" id="jrJ-Sy-lhB"/>

@@ -225,6 +225,7 @@ class StandardEngine: EngineProtocol {
     
     // Instantiate Singleton
     static let engine = StandardEngine(10, 10)  // Shared instance
+
     internal required init(_ rows: Int, _ cols: Int) {
         self.rows = rows
         self.cols = cols
@@ -241,7 +242,7 @@ class StandardEngine: EngineProtocol {
     }
 
     func renew() -> Void {
-        grid = Grid(rows, cols)
+        self.grid = Grid(rows, cols)
         delegate?.engineDidUpdate(withGrid: grid)
     }
     

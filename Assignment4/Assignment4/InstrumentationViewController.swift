@@ -19,8 +19,11 @@ class InstrumentationViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var sizeStepperRow: UIStepper!
     @IBOutlet weak var sizeStepperCol: UIStepper!
     @IBOutlet weak var rateLabel: UILabel!
+    @IBOutlet weak var rateSlider: UISlider!
     @IBOutlet weak var refreshLabel: UILabel!
-
+    @IBOutlet weak var refreshSwitch: UISwitch!
+    
+    
     // redraw instrumentation info
     internal func drawInst() -> Void {
         let size = engine.rows
@@ -29,11 +32,21 @@ class InstrumentationViewController: UIViewController, UITextFieldDelegate {
         sizeStepperRow.value = Double(size)
         sizeStepperCol.value = Double(size)
     }
+
+    // reset timer and swich off
+    internal func resetSwitch() -> Void {
+        refreshSwitch.isOn = false
+        refreshLabel.text = "Refresh: OFF"
+        StandardEngine.engine.isRefresh = false
+        StandardEngine.engine.timerInterval = 0.0
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         engine = StandardEngine.engine
+        rateLabel.text = "\(engine.refreshRate) Hz"
+        rateSlider.setValue(Float(engine.refreshRate), animated: true)
         drawInst()
         
         // To receive changes when simulation controller (+) (-) modified the size
@@ -41,6 +54,7 @@ class InstrumentationViewController: UIViewController, UITextFieldDelegate {
         let name = Notification.Name(rawValue: "GridUpdate")
         nc.addObserver(forName: name, object: nil, queue: nil) { (n) in
             print("Notification [GridUpdate] received at [Instrumentation]")
+            self.resetSwitch()  // comment out if you don't want to reset each time gride updates
             self.drawInst()
         }
     }
@@ -53,9 +67,16 @@ class InstrumentationViewController: UIViewController, UITextFieldDelegate {
     // Switch Event Handling
     @IBAction func refreshSwich(_ sender: UISwitch) {
         engine.isRefresh = sender.isOn
-        let on_off = engine.isRefresh ? "ON" : "OFF"
+        let on_off = sender.isOn ? "ON" : "OFF"
         refreshLabel.text = "Refresh: \(on_off)"
         print("Refresh " + on_off)
+        
+        if (sender.isOn) {
+            engine.timerInterval = engine.refreshRate
+        } else {
+            self.refreshSwitch.isOn = false
+            engine.timerInterval = 0.0
+        }
     }
     
     // Slider Event Handling
@@ -65,7 +86,13 @@ class InstrumentationViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func slided(_ sender: UISlider) {
-        engine.refreshRate = (Double(sender.value) * 10).rounded() / 10
+        let tmpRate = (Double(sender.value) * 10).rounded() / 10
+        engine.refreshRate = tmpRate
+        if (refreshSwitch.isOn) {
+            print("refreshSwitch is ON")
+            engine.timerInterval = 0.0  // remove current timer
+            engine.timerInterval = tmpRate
+        }
         print("rate is " + String(engine.refreshRate))
     }
     
@@ -78,8 +105,7 @@ class InstrumentationViewController: UIViewController, UITextFieldDelegate {
         print("size is " + String(engine.rows))
 
         engine.renew()
-        engine.statPublish()  // DEBUG
-        print("DEBUG-size is \(engine.rows)")
+        engine.statPublish()
     }
     
 

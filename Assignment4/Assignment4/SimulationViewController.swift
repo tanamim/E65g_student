@@ -40,12 +40,12 @@ class SimulationViewController: UIViewController, EngineDelegate, UITabBarDelega
             gridView.size = withGrid.size.rows
         }
         gridView.grid = gridView.grid.next()  // iterate each cell to go nextState
-        engine.grid = gridView.grid           // sync with engine
+        self.gridView.setNeedsDisplay()
+
+        engine.grid = gridView.grid           // sync with engine to publish stat
+        engine.statPublish()
         
         self.sizeLabel.text = "Size: \(withGrid.size.rows) x \(withGrid.size.cols)"  // draw info
-
-        engine.statPublish()
-        self.gridView.setNeedsDisplay()
     }
 
 
@@ -79,8 +79,8 @@ class SimulationViewController: UIViewController, EngineDelegate, UITabBarDelega
     }
     
     @IBAction func pressReset(_ sender: Any) {
-        gridView.size = engine.rows  // invoke didset to create new Grid
-        engine.renew()
+        gridView.size = engine.rows  // invoke didset to create new Grid in gridView
+        var _ = engine.step()
     }
 
 }
