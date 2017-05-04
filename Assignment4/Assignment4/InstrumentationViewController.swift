@@ -105,7 +105,7 @@ class InstrumentationViewController: UIViewController, UITextFieldDelegate {
         print("size is " + String(engine.rows))
 
         engine.renew()
-        engine.statPublish()
+//        engine.statPublish()
     }
     
 
