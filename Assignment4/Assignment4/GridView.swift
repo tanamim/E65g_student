@@ -111,6 +111,12 @@ import UIKit
     /// - Parameter touches: Set<UITouch>
     /// - Returns: touched position
     func process(touches: Set<UITouch>) -> Position? {
+        
+        let touchY = touches.first!.location(in: self.superview).y
+        let touchX = touches.first!.location(in: self.superview).x
+        guard touchX > frame.origin.x && touchX < (frame.origin.x + frame.size.width) else { return nil }
+        guard touchY > frame.origin.y && touchY < (frame.origin.y + frame.size.height) else { return nil }
+        
         guard touches.count == 1 else { return nil }
         let pos = convert(touch: touches.first!)
         guard lastTouchedPosition?.row != pos.row

@@ -231,7 +231,7 @@ class StandardEngine: EngineProtocol {
         self.cols = cols
         self.gridStat = GridStat(alive: 0, born: 0, died: 0, empty: 100)
         self.grid = Grid(rows, cols)
-        self.refreshRate = 3.0
+        self.refreshRate = 0.5
         self.isRefresh = false
     }
 
@@ -246,7 +246,7 @@ class StandardEngine: EngineProtocol {
         delegate?.engineDidUpdate(withGrid: grid)
     }
     
-    // Statistics updater.
+    // Statistics updater. We could call living.count or use lazyPositions
     func statGenerate() -> Void {
         var alive = 0
         var born = 0

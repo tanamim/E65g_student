@@ -45,7 +45,7 @@ class InstrumentationViewController: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         engine = StandardEngine.engine
-        rateLabel.text = "\(engine.refreshRate) Hz"
+        rateLabel.text = "\(1/engine.refreshRate) Hz"
         rateSlider.setValue(Float(engine.refreshRate), animated: true)
         drawInst()
         
@@ -81,17 +81,17 @@ class InstrumentationViewController: UIViewController, UITextFieldDelegate {
     
     // Slider Event Handling
     @IBAction func slide(_ sender: UISlider) {
-        let tmpRate = (Double(sender.value) * 10).rounded() / 10
-        rateLabel.text = "\(tmpRate) Hz"
+        let hz = (Double(sender.value) * 10).rounded() / 10
+        rateLabel.text = "\(hz) Hz"
     }
     
     @IBAction func slided(_ sender: UISlider) {
-        let tmpRate = (Double(sender.value) * 10).rounded() / 10
-        engine.refreshRate = tmpRate
+        let hz = (Double(sender.value) * 10).rounded() / 10
+        engine.refreshRate = 1/hz
         if (refreshSwitch.isOn) {
             print("refreshSwitch is ON")
             engine.timerInterval = 0.0  // remove current timer
-            engine.timerInterval = tmpRate
+            engine.timerInterval = 1/hz
         }
         print("rate is " + String(engine.refreshRate))
     }
