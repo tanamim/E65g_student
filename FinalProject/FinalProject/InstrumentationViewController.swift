@@ -175,10 +175,17 @@ var data = [
 
 extension InstrumentationViewController: UITableViewDelegate, UITableViewDataSource {
 
+    
+    
     override func viewWillAppear(_ animated: Bool) {
-        navigationController?.isNavigationBarHidden = true  // true
+        navigationController?.isNavigationBarHidden = false  // true
     }
 
+    @IBAction func addRowToTop(_ sender: UIBarButtonItem) {
+        data = ["New Grid"] + data
+        self.tableView.reloadData()
+    }
+    
     //MARK: TableView DataSource and Delegate
     
     func numberOfSections(in tableView: UITableView) -> Int {
