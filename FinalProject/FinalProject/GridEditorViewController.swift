@@ -41,4 +41,9 @@ class GridEditorViewController: UIViewController {
             self.navigationController!.popViewController(animated: true)
         }
     }
+
+    @IBAction func cancel(_ sender: UIButton) {
+        self.navigationController!.popViewController(animated: true)
+    }
+
 }

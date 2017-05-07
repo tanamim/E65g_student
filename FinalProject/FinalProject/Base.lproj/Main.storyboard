@@ -159,7 +159,7 @@
                                                 <rect key="frame" x="0.0" y="28" width="299" height="44"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="RWR-8G-JWV" id="G4I-hO-oFG">
-                                                    <rect key="frame" x="0.0" y="0.0" width="299" height="43"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="299" height="43.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Configurations" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c21-Hn-tPN" userLabel="Configurations">
@@ -176,7 +176,7 @@
                                                     </constraints>
                                                 </tableViewCellContentView>
                                                 <connections>
-                                                    <segue destination="TXq-J7-YCA" kind="show" id="sfU-5r-pu9"/>
+                                                    <segue destination="TXq-J7-YCA" kind="show" identifier="config" id="sfU-5r-pu9"/>
                                                 </connections>
                                             </tableViewCell>
                                         </prototypes>
@@ -250,7 +250,7 @@
                     <navigationItem key="navigationItem" title="Settings" id="9QJ-Bp-AcA">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="cAf-4C-jWl">
                             <connections>
-                                <action selector="addRowToTop:" destination="9pv-A4-QxB" id="7W4-17-yjZ"/>
+                                <action selector="addRowToTop:" destination="9pv-A4-QxB" id="xba-Tn-6vV"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -264,6 +264,7 @@
                         <outlet property="sizeTextFieldCol" destination="fAt-0d-0bu" id="jrJ-Sy-lhB"/>
                         <outlet property="sizeTextFieldRow" destination="CKw-7q-sxv" id="gx4-4L-kYB"/>
                         <outlet property="tableView" destination="mNW-Js-se4" id="nsn-fW-XUf"/>
+                        <segue destination="TXq-J7-YCA" kind="show" identifier="addConfig" id="spn-Cv-WyQ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W5J-7L-Pyd" sceneMemberID="firstResponder"/>
@@ -300,6 +301,11 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Grid Editor" id="8YK-Os-OII">
+                        <barButtonItem key="leftBarButtonItem" title="Item" systemItem="cancel" id="QBa-SI-vAc">
+                            <connections>
+                                <action selector="cancel:" destination="TXq-J7-YCA" id="2RK-Pb-RKR"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="save" id="dxz-Fl-OnI">
                             <connections>
                                 <action selector="save:" destination="TXq-J7-YCA" id="HU3-es-KFh"/>
@@ -629,4 +635,7 @@
         <image name="Simulation" width="25" height="25"/>
         <image name="Statistics" width="25" height="25"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="spn-Cv-WyQ"/>
+    </inferredMetricsTieBreakers>
 </document>

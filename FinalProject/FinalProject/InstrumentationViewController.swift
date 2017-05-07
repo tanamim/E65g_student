@@ -158,7 +158,10 @@ class InstrumentationViewController: UIViewController, UITextFieldDelegate {
 
 }
 
+var sectionHeaders = ["Pick or Add"]
+
 var data = [
+    [
         "Apple",
         "Banana",
         "Cherry",
@@ -171,59 +174,78 @@ var data = [
         "Japan",
         "Kiwi"
     ]
+]
 
 
 extension InstrumentationViewController: UITableViewDelegate, UITableViewDataSource {
-
-    
     
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.isNavigationBarHidden = false  // true
     }
-
+    
     @IBAction func addRowToTop(_ sender: UIBarButtonItem) {
-        data = ["New Grid"] + data
-        self.tableView.reloadData()
+//        if let index = self.tableView.indexPathForSelectedRow{
+//            self.tableView.deselectRow(at: index, animated: false)
+//        }
+        self.performSegue(withIdentifier: "addConfig", sender: self)
     }
     
     //MARK: TableView DataSource and Delegate
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return data.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return data.count
+        return data[section].count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let identifier = "config"
         let cell = tableView.dequeueReusableCell(withIdentifier: identifier, for: indexPath)
         let label = cell.contentView.subviews.first as! UILabel
-        label.text = data[indexPath.item]
+        label.text = data[indexPath.section][indexPath.item]
         
         return cell
     }
     
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return sectionHeaders[section]
+    }
+    
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            data.remove(at: indexPath.item)
+            var newData = data[indexPath.section]
+            newData.remove(at: indexPath.row)
+            data[indexPath.section] = newData
+            tableView.deleteRows(at: [indexPath], with: .automatic)
             tableView.reloadData()
         }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let indexPath = tableView.indexPathForSelectedRow
-        if let indexPath = indexPath {
-            let configValue = data[indexPath.row]
-            
-            print("selected is ", configValue)
-            
+        if segue.identifier == "addConfig" {        // segue is triggered by '+'
             if let vc = segue.destination as? GridEditorViewController {
-                vc.configValue = configValue
+                vc.configValue = "New Config"
                 vc.saveClosure = { newValue in
-                    data[indexPath.row] = newValue
+                    data[0] = [newValue] + data[0]  // add a new item
                     self.tableView.reloadData()
+                    let indexPath = IndexPath(row: 0, section: 0)  // select the new item
+                    self.tableView.selectRow(at: indexPath, animated: true, scrollPosition: UITableViewScrollPosition.top)
+                }
+            }
+        } else {  // segue is triggerd by table
+            let indexPath = tableView.indexPathForSelectedRow
+            if let indexPath = indexPath {
+                let configValue = data[indexPath.section][indexPath.row]
+                print("selected is ", configValue)
+                if let vc = segue.destination as? GridEditorViewController {
+                    vc.configValue = configValue
+                    vc.saveClosure = { newValue in
+                        data[indexPath.section][indexPath.row] = newValue
+                        self.tableView.reloadData()
+                        self.tableView.selectRow(at: indexPath, animated: true, scrollPosition: UITableViewScrollPosition.none)
+                    }
                 }
             }
         }
