@@ -57,6 +57,7 @@ class InstrumentationViewController: UIViewController, UITextFieldDelegate {
             self.resetSwitch()  // comment out if you don't want to reset each time gride updates
             self.drawInst()
         }
+
     }
 
     override func didReceiveMemoryWarning() {
@@ -152,5 +153,86 @@ class InstrumentationViewController: UIViewController, UITextFieldDelegate {
         alert.addAction(okAction)
         self.present(alert, animated: true, completion: nil)
     }
+
+    @IBOutlet weak var tableView: UITableView!
+
 }
+
+var data = [
+        "Apple",
+        "Banana",
+        "Cherry",
+        "Date",
+        "English",
+        "Fiji",
+        "Google",
+        "High",
+        "India",
+        "Japan",
+        "Kiwi"
+    ]
+
+
+extension InstrumentationViewController: UITableViewDelegate, UITableViewDataSource {
+
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.isNavigationBarHidden = true  // true
+    }
+
+    //MARK: TableView DataSource and Delegate
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return data.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let identifier = "config"
+        let cell = tableView.dequeueReusableCell(withIdentifier: identifier, for: indexPath)
+        let label = cell.contentView.subviews.first as! UILabel
+        label.text = data[indexPath.item]
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            data.remove(at: indexPath.item)
+            tableView.reloadData()
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let indexPath = tableView.indexPathForSelectedRow
+        if let indexPath = indexPath {
+            let configValue = data[indexPath.row]
+            
+            print("selected is ", configValue)
+            
+            if let vc = segue.destination as? GridEditorViewController {
+                vc.configValue = configValue
+                vc.saveClosure = { newValue in
+                    data[indexPath.row] = newValue
+                    self.tableView.reloadData()
+                }
+            }
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 

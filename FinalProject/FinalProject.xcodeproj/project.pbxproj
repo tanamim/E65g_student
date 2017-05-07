@@ -13,6 +13,7 @@
 		CE9EED6D1EBF65F20070AD34 /* MyTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9EED671EBF65F20070AD34 /* MyTabBarController.swift */; };
 		CE9EED6E1EBF65F20070AD34 /* SimulationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9EED681EBF65F20070AD34 /* SimulationViewController.swift */; };
 		CE9EED6F1EBF65F20070AD34 /* StatisticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9EED691EBF65F20070AD34 /* StatisticsViewController.swift */; };
+		CE9EEDBD1EBF998A0070AD34 /* GridEditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9EEDBC1EBF998A0070AD34 /* GridEditorViewController.swift */; };
 		FBAD2E271E2BE417008207C0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBAD2E261E2BE417008207C0 /* AppDelegate.swift */; };
 		FBAD2E2E1E2BE417008207C0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FBAD2E2C1E2BE417008207C0 /* Main.storyboard */; };
 		FBAD2E301E2BE417008207C0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FBAD2E2F1E2BE417008207C0 /* Assets.xcassets */; };
@@ -26,6 +27,7 @@
 		CE9EED671EBF65F20070AD34 /* MyTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyTabBarController.swift; sourceTree = "<group>"; };
 		CE9EED681EBF65F20070AD34 /* SimulationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimulationViewController.swift; sourceTree = "<group>"; };
 		CE9EED691EBF65F20070AD34 /* StatisticsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatisticsViewController.swift; sourceTree = "<group>"; };
+		CE9EEDBC1EBF998A0070AD34 /* GridEditorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridEditorViewController.swift; sourceTree = "<group>"; };
 		FBAD2E231E2BE417008207C0 /* FinalProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FinalProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FBAD2E261E2BE417008207C0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FBAD2E2D1E2BE417008207C0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -66,6 +68,7 @@
 			children = (
 				CE9EED641EBF65F20070AD34 /* Grid.swift */,
 				CE9EED651EBF65F20070AD34 /* GridView.swift */,
+				CE9EEDBC1EBF998A0070AD34 /* GridEditorViewController.swift */,
 				CE9EED661EBF65F20070AD34 /* InstrumentationViewController.swift */,
 				CE9EED671EBF65F20070AD34 /* MyTabBarController.swift */,
 				CE9EED681EBF65F20070AD34 /* SimulationViewController.swift */,
@@ -156,6 +159,7 @@
 				CE9EED6B1EBF65F20070AD34 /* GridView.swift in Sources */,
 				CE9EED6E1EBF65F20070AD34 /* SimulationViewController.swift in Sources */,
 				CE9EED6F1EBF65F20070AD34 /* StatisticsViewController.swift in Sources */,
+				CE9EEDBD1EBF998A0070AD34 /* GridEditorViewController.swift in Sources */,
 				CE9EED6A1EBF65F20070AD34 /* Grid.swift in Sources */,
 				CE9EED6D1EBF65F20070AD34 /* MyTabBarController.swift in Sources */,
 			);

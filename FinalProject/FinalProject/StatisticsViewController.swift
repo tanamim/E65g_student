@@ -2,7 +2,7 @@
 //  ThirdViewController.swift
 //  Assignment4
 //
-//  Created by Chiryoku Inc. on 4/18/17.
+//  Created by Masakazu Tanami on 4/18/17.
 //  Copyright © 2017 Harvard Division of Continuing Education. All rights reserved.
 //
 

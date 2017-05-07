@@ -29,6 +29,8 @@ xcuserdata/
 
 ## my ignore
 Assignment*/.DS_Store
+*.DS_Store
+*_bak
 
 ## Playgrounds
 timeline.xctimeline
