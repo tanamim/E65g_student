@@ -8,12 +8,14 @@
 
 import UIKit
 
+
+let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
+
 class InstrumentationViewController: UIViewController, UITextFieldDelegate {
 
     let minSize = 3
     let maxSize = 100
     var engine: StandardEngine!
-    let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
     
     @IBOutlet weak var sizeTextFieldRow: UITextField!
     @IBOutlet weak var sizeTextFieldCol: UITextField!
@@ -23,7 +25,6 @@ class InstrumentationViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var rateSlider: UISlider!
     @IBOutlet weak var refreshLabel: UILabel!
     @IBOutlet weak var refreshSwitch: UISwitch!
-    
     
     // redraw instrumentation info
     internal func drawInst() -> Void {
@@ -65,6 +66,8 @@ class InstrumentationViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+
+        fetch()  // read JSON freom network
         engine = StandardEngine.engine
         rateLabel.text = "\(1/engine.refreshRate) Hz"
         rateSlider.setValue(Float(engine.refreshRate), animated: true)
@@ -78,7 +81,6 @@ class InstrumentationViewController: UIViewController, UITextFieldDelegate {
             self.resetSwitch()  // comment out if you don't want to reset each time grid updates
             self.drawInst()
         }
-
     }
 
     override func didReceiveMemoryWarning() {
@@ -184,8 +186,6 @@ class InstrumentationViewController: UIViewController, UITextFieldDelegate {
 
 
 
-
-
 // Data Model Development //
 
 
@@ -199,47 +199,18 @@ struct Config {
     var died:  [[Int]]
 }
 
-//var userData: [Config] = [
-//    // user config
-//    Config(
-//        name: "Test Data",
-//        size:  6,
-//        alive: [[1,0], [1,1]],
-//        born:  [[0,0], [0,1]],
-//        died:  [[2,0], [2,1]]
-//    )
-//]
+// Import Original Configs in JSON format
+let finalProjectURL = "https://dl.dropboxusercontent.com/u/7544475/S65g.json"
 
-var networkData: [Config] = [
-    // network config - from JSON
-    Config(
-        name: "Apple",
-        size:  8,
-        alive: [[1,0], [1,1]],
-        born:  [[0,0], [0,1]],
-        died:  [[2,0], [2,1]]
-    ),
-    Config(
-        name: "Banana",
-        size:  16,
-        alive: [[11,0], [11,1]],
-        born:  [[10,0], [10,1]],
-        died:  [[12,0], [12,1]]
-    ),
-    Config(
-        name: "Cherry",
-        size:  40,
-        alive: [[21,0], [21,1]],
-        born:  [[20,0], [20,1]],
-        died:  [[22,0], [22,1]]
-    )
-]
-
-let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
-let userData = appDelegate.userData
+// list of default config from network
+var networkData: [Config] = [] {
+    didSet {
+        data[1] = networkData
+}
+}
 
 // Master Table Data
-var data = [userData, networkData]
+var data = [appDelegate.userData, networkData]
 
 extension InstrumentationViewController: UITableViewDelegate, UITableViewDataSource {
     
@@ -291,7 +262,7 @@ extension InstrumentationViewController: UITableViewDelegate, UITableViewDataSou
                 vc.configValue = Config(name: "New Config", size: 10, alive: [], born: [], died: [])
                 vc.saveClosure = { newValue in
                     data[0] = [newValue] + data[0]  // add a new item
-                    self.appDelegate.userData = data[0]  // save user data
+                    appDelegate.userData = data[0]  // save user data
                     self.tableView.reloadData()
                     let indexPath = IndexPath(row: 0, section: 0)  // select the new item
                     self.tableView.selectRow(at: indexPath, animated: true, scrollPosition: UITableViewScrollPosition.top)
@@ -306,7 +277,7 @@ extension InstrumentationViewController: UITableViewDelegate, UITableViewDataSou
                     vc.configValue = configValue
                     vc.saveClosure = { newValue in
                         data[indexPath.section][indexPath.row] = newValue
-                        self.appDelegate.userData = data[0]  // save user data
+                        appDelegate.userData = data[0]  // save user data
                         self.tableView.reloadData()
                         self.tableView.selectRow(at: indexPath, animated: true, scrollPosition: UITableViewScrollPosition.none)
                         // redraw info
@@ -319,6 +290,40 @@ extension InstrumentationViewController: UITableViewDelegate, UITableViewDataSou
 }
 
 
+extension InstrumentationViewController {
+    func fetch() {
+        let fetcher = Fetcher()
+        fetcher.fetchJSON(url: URL(string: finalProjectURL)!) { (json: Any?, message: String?) in
+            guard message == nil else {
+                print(message ?? "nil")
+                return
+            }
+            guard let json = json else {
+                print("no json")
+                return
+            }
+            self.jsonHandler(json)
+        }
+    }
+    
+    func jsonArrayToConfig(_ jsonArray: Any) -> Config {
+        let jsonDictionary = jsonArray as! NSDictionary
+        let jsonTitle = jsonDictionary["title"] as! String
+        let jsonContents = jsonDictionary["contents"] as! [[Int]]
+        let maxRowCol = jsonContents.reduce(0, {max($0, $1[0], $1[1])})
+        return Config(name: jsonTitle, size: maxRowCol * 2, alive: jsonContents, born: [], died: [])
+    }
+    
+    func jsonHandler(_ json: Any) {
+        let jsonArray = json as! NSArray
+        let jsonNetworkData: [Config] = jsonArray.map { jsonArrayToConfig($0) }
+        
+        networkData = jsonNetworkData
+        OperationQueue.main.addOperation {
+            self.tableView.reloadData()
+        }
+    }
+}
 
 
 
