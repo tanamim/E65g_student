@@ -150,18 +150,9 @@ import UIKit
     func drawGrid(_ state: CellState, _ list: [[Int]]) -> Void {
         list.forEach {
             self.grid[$0[0], $0[1]] = state
-//            StandardEngine.engine.grid[$0[0], $0[1]] = state  // sync with engine
         }
     }
 
-    func emptyFill() {
-        (0 ..< self.size).forEach { i in
-            (0 ..< self.size).forEach { j in
-                self.grid[i, j] = .empty
-            }
-        }
-    }
-    
     
     // Return a new config with current cell status
     func getConfig() -> Config {

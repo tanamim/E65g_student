@@ -14,6 +14,7 @@ class GridEditorViewController: UIViewController {
     @IBOutlet weak var sizeLabel: UILabel!
     @IBOutlet weak var configName: UITextField!
 
+    let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
     var configValue: Config?
     var saveClosure: ((Config) -> Void)?
 
@@ -75,7 +76,16 @@ class GridEditorViewController: UIViewController {
             newValue.name = configName.text!  // change name from "New Config"
             saveClosure(newValue)
             self.navigationController!.popViewController(animated: true)
-            StandardEngine.engine.rows = newValue.size
+//            StandardEngine.engine.rows = newValue.size
+
+            // update global variable
+            appDelegate.currentConfig = newValue
+            // notification [GridUpdate] pualisher to tell Instrumentation to redraw info
+            print("Grid Export to Simulation!")
+            let nc = NotificationCenter.default
+            let name = Notification.Name(rawValue: "GridExport")
+            let n = Notification(name: name, object: nil, userInfo: ["GridEditorViewController": self])
+            nc.post(n)
         }
     }
 

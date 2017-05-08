@@ -14,44 +14,54 @@ class SimulationViewController: UIViewController, EngineDelegate, UITabBarDelega
     @IBOutlet weak var gridView: GridView!
     @IBOutlet weak var sizeLabel: UILabel!  // shows like (Size: 10 x 10)
 
-//    let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
+    let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
     let minSize = 3
     let maxSize = 100
     let stepAmount = 5  // step in Instrumentation is 10
+    
+    var isFirstUpdate = true  // check if first time
     
     var engine: StandardEngine!
     var timer: Timer?
 
     
-//    func drawConfigCell() {
-//        // set cell state
-//        let configValue = appDelegate.currentConfig!
-////        self.gridView.emptyFill()
-//        self.gridView.drawGrid(.alive, configValue.alive)
-//        self.gridView.drawGrid(.born,  configValue.born)
-//        self.gridView.drawGrid(.died,  configValue.died)
-//        self.gridView.setNeedsDisplay()
-//    }
+    func drawConfigCell() {
+        // set cell state
+        let configValue = appDelegate.currentConfig!
+        self.upDateGrid(configValue.size, configValue.size)
+        self.gridView.drawGrid(.alive, configValue.alive)
+        self.gridView.drawGrid(.born,  configValue.born)
+        self.gridView.drawGrid(.died,  configValue.died)
+        self.gridView.setNeedsDisplay()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-
         engine = StandardEngine.engine
         engine.delegate = self
+        
+        // To receive changes when grid editor pressed the save button
+        let nc = NotificationCenter.default
+        let name = Notification.Name(rawValue: "GridExport")
+        nc.addObserver(forName: name, object: nil, queue: nil) { (n) in
+            print("Notification [GridExport] received at [Simulation]")
+            self.drawConfigCell()  // redraw grids to reflect config
+        }
+
+        // for the first time
+        drawConfigCell()
         sizeLabel.text = "Size: \(engine.rows) x \(engine.cols)"
-        gridView.size = engine.rows
-//        drawConfigCell()
-        gridView.setNeedsDisplay()
         print("Now the size is \(gridView.size)")
     }
 
     
     func engineDidUpdate(withGrid: GridProtocol) {
 
-        if (gridView.size != withGrid.size.rows) {
+//        if (gridView.size != withGrid.size.rows) {
+        if (isFirstUpdate) {
             gridView.size = withGrid.size.rows
-//            drawConfigCell()
+            self.isFirstUpdate = false
         }
 
         gridView.grid = gridView.grid.next()  // iterate each cell to go nextState
@@ -62,7 +72,6 @@ class SimulationViewController: UIViewController, EngineDelegate, UITabBarDelega
         
         self.sizeLabel.text = "Size: \(withGrid.size.rows) x \(withGrid.size.cols)"  // draw info
     }
-
 
 
     
@@ -79,6 +88,7 @@ class SimulationViewController: UIViewController, EngineDelegate, UITabBarDelega
     
     // Assignment3 Part6 (Modified)
     internal func upDateGrid(_ rows: Int, _ cols: Int) -> Void {
+        isFirstUpdate = true
         let size = min(max(rows, minSize), maxSize)
         engine.rows = size
         engine.cols = size
@@ -96,9 +106,7 @@ class SimulationViewController: UIViewController, EngineDelegate, UITabBarDelega
     }
     
     @IBAction func pressReset(_ sender: Any) {
-//        appDelegate.currentConfig?.alive = []
-//        appDelegate.currentConfig?.born = []
-//        appDelegate.currentConfig?.died = []
+        isFirstUpdate = true
         gridView.size = engine.rows  // invoke didset to create new Grid in gridView
         var _ = engine.step()
     }
