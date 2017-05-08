@@ -158,24 +158,54 @@ class InstrumentationViewController: UIViewController, UITextFieldDelegate {
 
 }
 
-var sectionHeaders = ["Pick or Add"]
 
-var data = [
-    [
-        "Apple",
-        "Banana",
-        "Cherry",
-        "Date",
-        "English",
-        "Fiji",
-        "Google",
-        "High",
-        "India",
-        "Japan",
-        "Kiwi"
-    ]
+
+// Data Model Development //
+
+
+var sectionHeaders = ["User Saved", "Originals"]
+
+struct Config {
+    var name:  String
+    var born:  [[Int]]
+    var alive: [[Int]]
+    var died:  [[Int]]
+}
+
+var userData: [Config] = [
+    // user config
+    Config(
+        name: "Test Data",
+        born:  [[0,0], [0,1]],
+        alive: [[1,0], [1,1]],
+        died:  [[2,0], [2,1]]
+    )
 ]
 
+var networkData: [Config] = [
+    // network config - from JSON
+    Config(
+        name: "Apple",
+        born:  [[0,0], [0,1]],
+        alive: [[1,0], [1,1]],
+        died:  [[2,0], [2,1]]
+    ),
+    Config(
+        name: "Banana",
+        born:  [[10,0], [10,1]],
+        alive: [[11,0], [11,1]],
+        died:  [[12,0], [12,1]]
+    ),
+    Config(
+        name: "Cherry",
+        born:  [[20,0], [20,1]],
+        alive: [[21,0], [21,1]],
+        died:  [[22,0], [22,1]]
+    )
+]
+
+// Master Table Data
+var data = [userData, networkData]
 
 extension InstrumentationViewController: UITableViewDelegate, UITableViewDataSource {
     
@@ -184,9 +214,6 @@ extension InstrumentationViewController: UITableViewDelegate, UITableViewDataSou
     }
     
     @IBAction func addRowToTop(_ sender: UIBarButtonItem) {
-//        if let index = self.tableView.indexPathForSelectedRow{
-//            self.tableView.deselectRow(at: index, animated: false)
-//        }
         self.performSegue(withIdentifier: "addConfig", sender: self)
     }
     
@@ -204,7 +231,7 @@ extension InstrumentationViewController: UITableViewDelegate, UITableViewDataSou
         let identifier = "config"
         let cell = tableView.dequeueReusableCell(withIdentifier: identifier, for: indexPath)
         let label = cell.contentView.subviews.first as! UILabel
-        label.text = data[indexPath.section][indexPath.item]
+        label.text = data[indexPath.section][indexPath.item].name
         
         return cell
     }
@@ -224,25 +251,28 @@ extension InstrumentationViewController: UITableViewDelegate, UITableViewDataSou
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "addConfig" {        // segue is triggered by '+'
+        // segue is triggered by '+'
+        if segue.identifier == "addConfig" {
             if let vc = segue.destination as? GridEditorViewController {
                 vc.configValue = "New Config"
                 vc.saveClosure = { newValue in
-                    data[0] = [newValue] + data[0]  // add a new item
+                    let newConfig = Config(name: newValue, born: [], alive: [], died: [])
+                    data[0] = [newConfig] + data[0]  // add a new item
                     self.tableView.reloadData()
                     let indexPath = IndexPath(row: 0, section: 0)  // select the new item
                     self.tableView.selectRow(at: indexPath, animated: true, scrollPosition: UITableViewScrollPosition.top)
                 }
             }
-        } else {  // segue is triggerd by table
+        } else {  // segue is triggerd by a table cell
             let indexPath = tableView.indexPathForSelectedRow
             if let indexPath = indexPath {
-                let configValue = data[indexPath.section][indexPath.row]
+                let configValue = data[indexPath.section][indexPath.row].name
                 print("selected is ", configValue)
                 if let vc = segue.destination as? GridEditorViewController {
                     vc.configValue = configValue
                     vc.saveClosure = { newValue in
-                        data[indexPath.section][indexPath.row] = newValue
+                        let newConfig = Config(name: newValue, born: [], alive: [], died: [])
+                        data[indexPath.section][indexPath.row] = newConfig
                         self.tableView.reloadData()
                         self.tableView.selectRow(at: indexPath, animated: true, scrollPosition: UITableViewScrollPosition.none)
                     }

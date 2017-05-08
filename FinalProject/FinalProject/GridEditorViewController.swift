@@ -15,7 +15,7 @@ class GridEditorViewController: UIViewController {
     
     @IBOutlet weak var configValueTextField: UITextField!
     
-    @IBAction func backToTop(segue: UIStoryboardSegue) {}
+//    @IBAction func backToTop(segue: UIStoryboardSegue) {}
     
     override func viewDidLoad() {
         super.viewDidLoad()
