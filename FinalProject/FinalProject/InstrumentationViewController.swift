@@ -291,6 +291,7 @@ extension InstrumentationViewController: UITableViewDelegate, UITableViewDataSou
                 vc.configValue = Config(name: "New Config", size: 10, alive: [], born: [], died: [])
                 vc.saveClosure = { newValue in
                     data[0] = [newValue] + data[0]  // add a new item
+                    self.appDelegate.userData = data[0]  // save user data
                     self.tableView.reloadData()
                     let indexPath = IndexPath(row: 0, section: 0)  // select the new item
                     self.tableView.selectRow(at: indexPath, animated: true, scrollPosition: UITableViewScrollPosition.top)
@@ -305,6 +306,7 @@ extension InstrumentationViewController: UITableViewDelegate, UITableViewDataSou
                     vc.configValue = configValue
                     vc.saveClosure = { newValue in
                         data[indexPath.section][indexPath.row] = newValue
+                        self.appDelegate.userData = data[0]  // save user data
                         self.tableView.reloadData()
                         self.tableView.selectRow(at: indexPath, animated: true, scrollPosition: UITableViewScrollPosition.none)
                         // redraw info

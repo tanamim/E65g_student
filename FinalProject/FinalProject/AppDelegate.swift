@@ -14,12 +14,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     
     // save and load user data
-    let defaults = UserDefaults.standard
+//    let defaults = UserDefaults.standard
     
     // keep track of the current config here
     var currentConfig: Config?  // struct Config is defined in InstrumentationViewController
 
     //  list of user config
+//    var userData: [Config] = []
+
     var userData: [Config] = [
         Config(
             name: "Test Data",
@@ -28,7 +30,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             born:  [[0,0], [0,1]],
             died:  [[2,0], [2,1]]
         )
-    ]
+        ] {
+        didSet {
+            let defaults = UserDefaults.standard
+            defaults.set(userData[0].name, forKey: "userData")
+        }
+    }
+
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
  
@@ -41,7 +50,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             died:  []
         )
 
-        
+        let defaults = UserDefaults.standard
+        let recoveredData = defaults.object(forKey: "userData")
+        guard recoveredData != nil else { return true }
+
+        // DEBUG to check if the name on top of userData is recovered.
+        print(recoveredData as! String)
         
         return true
     }
@@ -66,8 +80,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+
+        print(userData)
+        let defaults = UserDefaults.standard
+        defaults.set(userData, forKey: "userData")
     }
-
-
 }
 
