@@ -28,9 +28,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             born:  [[0,0], [0,1]],
             died:  [[2,0], [2,1]]
         )
-        ]
+    ]
         {
         didSet {
+            let config = userData[0]
+            let configDict = ["title" : config.name, "size" : config.size, "alive" : config.alive, "born" : config.born, "died" : config.died] as [String : Any]
+            do {
+                let jsonData = try JSONSerialization.data(withJSONObject: configDict, options: .prettyPrinted)
+                print("json is ", jsonData)
+                defaults.set(jsonData, forKey: "jsonData")
+            } catch {
+                print(error.localizedDescription)
+            }            
+
             defaults.set(userData[0].name, forKey: "userData")
         }
     }
@@ -55,6 +65,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         // DEBUG to check if the name on top of userData is recovered.
         print(recoveredData as! String)
+
+//        let recoveredJson = defaults.object(forKey: "jsonData")
+//        guard recoveredJson != nil else { return true }
+//        let recoveredArray = recoveredJson as! NSArray
+////        let recoveredDictionary = recoveredArray as! NSDictionary
+//        print("recoveredArray is ", recoveredArray)
         
         return true
     }
