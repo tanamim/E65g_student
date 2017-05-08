@@ -13,7 +13,8 @@ class InstrumentationViewController: UIViewController, UITextFieldDelegate {
     let minSize = 3
     let maxSize = 100
     var engine: StandardEngine!
-
+    let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
+    
     @IBOutlet weak var sizeTextFieldRow: UITextField!
     @IBOutlet weak var sizeTextFieldCol: UITextField!
     @IBOutlet weak var sizeStepperRow: UIStepper!
@@ -54,7 +55,7 @@ class InstrumentationViewController: UIViewController, UITextFieldDelegate {
         let name = Notification.Name(rawValue: "GridUpdate")
         nc.addObserver(forName: name, object: nil, queue: nil) { (n) in
             print("Notification [GridUpdate] received at [Instrumentation]")
-            self.resetSwitch()  // comment out if you don't want to reset each time gride updates
+            self.resetSwitch()  // comment out if you don't want to reset each time grid updates
             self.drawInst()
         }
 
@@ -255,6 +256,7 @@ extension InstrumentationViewController: UITableViewDelegate, UITableViewDataSou
         }
     }
     
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // segue is triggered by '+'
         if segue.identifier == "addConfig" {
@@ -278,6 +280,13 @@ extension InstrumentationViewController: UITableViewDelegate, UITableViewDataSou
                         data[indexPath.section][indexPath.row] = newValue
                         self.tableView.reloadData()
                         self.tableView.selectRow(at: indexPath, animated: true, scrollPosition: UITableViewScrollPosition.none)
+
+                        // redraw info
+//                        self.appDelegate.currentConfig = newValue
+//                        self.engine.rows = newValue.size
+//                        self.engine.cols = newValue.size
+                        self.drawInst()
+//                        self.engine.renew()
                     }
                 }
             }

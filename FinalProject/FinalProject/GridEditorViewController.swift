@@ -60,6 +60,14 @@ class GridEditorViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+
+    func exportToEngine(config: Config) -> Void {
+            let engine = StandardEngine.engine
+            engine.rows = config.size
+            engine.cols = config.size
+        
+    }
+    
     
     @IBAction func save(_ sender: UIButton) {
         var newValue = gridView.getConfig()
@@ -67,6 +75,7 @@ class GridEditorViewController: UIViewController {
             newValue.name = configName.text!  // change name from "New Config"
             saveClosure(newValue)
             self.navigationController!.popViewController(animated: true)
+            StandardEngine.engine.rows = newValue.size
         }
     }
 

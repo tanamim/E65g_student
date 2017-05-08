@@ -13,9 +13,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     
+    var currentConfig: Config?
+    
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+ 
+        currentConfig = Config(
+            name: "Config Name",
+            size:  10,
+            alive: [],
+            born:  [],
+            died:  []
+        )
+        
         return true
     }
 

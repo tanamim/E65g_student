@@ -13,7 +13,8 @@ class SimulationViewController: UIViewController, EngineDelegate, UITabBarDelega
     
     @IBOutlet weak var gridView: GridView!
     @IBOutlet weak var sizeLabel: UILabel!  // shows like (Size: 10 x 10)
-    
+
+//    let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
     let minSize = 3
     let maxSize = 100
     let stepAmount = 5  // step in Instrumentation is 10
@@ -22,13 +23,25 @@ class SimulationViewController: UIViewController, EngineDelegate, UITabBarDelega
     var timer: Timer?
 
     
+//    func drawConfigCell() {
+//        // set cell state
+//        let configValue = appDelegate.currentConfig!
+////        self.gridView.emptyFill()
+//        self.gridView.drawGrid(.alive, configValue.alive)
+//        self.gridView.drawGrid(.born,  configValue.born)
+//        self.gridView.drawGrid(.died,  configValue.died)
+//        self.gridView.setNeedsDisplay()
+//    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        
+
         engine = StandardEngine.engine
         engine.delegate = self
         sizeLabel.text = "Size: \(engine.rows) x \(engine.cols)"
+        gridView.size = engine.rows
+//        drawConfigCell()
         gridView.setNeedsDisplay()
         print("Now the size is \(gridView.size)")
     }
@@ -38,10 +51,12 @@ class SimulationViewController: UIViewController, EngineDelegate, UITabBarDelega
 
         if (gridView.size != withGrid.size.rows) {
             gridView.size = withGrid.size.rows
+//            drawConfigCell()
         }
+
         gridView.grid = gridView.grid.next()  // iterate each cell to go nextState
         self.gridView.setNeedsDisplay()
-
+        
         engine.grid = gridView.grid           // sync with engine to publish stat
         engine.statPublish()
         
@@ -49,6 +64,8 @@ class SimulationViewController: UIViewController, EngineDelegate, UITabBarDelega
     }
 
 
+
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -79,6 +96,9 @@ class SimulationViewController: UIViewController, EngineDelegate, UITabBarDelega
     }
     
     @IBAction func pressReset(_ sender: Any) {
+//        appDelegate.currentConfig?.alive = []
+//        appDelegate.currentConfig?.born = []
+//        appDelegate.currentConfig?.died = []
         gridView.size = engine.rows  // invoke didset to create new Grid in gridView
         var _ = engine.step()
     }

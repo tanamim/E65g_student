@@ -148,10 +148,22 @@ import UIKit
     
     // Help to draw grid from config position list
     func drawGrid(_ state: CellState, _ list: [[Int]]) -> Void {
-        list.forEach { self.grid[$0[0], $0[1]] = state }
+        list.forEach {
+            self.grid[$0[0], $0[1]] = state
+//            StandardEngine.engine.grid[$0[0], $0[1]] = state  // sync with engine
+        }
     }
 
-    // Generate current state's config with "New Config"
+    func emptyFill() {
+        (0 ..< self.size).forEach { i in
+            (0 ..< self.size).forEach { j in
+                self.grid[i, j] = .empty
+            }
+        }
+    }
+    
+    
+    // Return a new config with current cell status
     func getConfig() -> Config {
         var config = Config(name: "New Config", size: self.size, alive: [], born: [], died: [])
         
@@ -167,11 +179,5 @@ import UIKit
         }
         return config
     }
-    
-    
-//    // Returns cell state's positoin list to update config
-//    func getStateList(_ state: CellState) -> [[Int]] {
-//        return [[]]
-//    }
 }
 
