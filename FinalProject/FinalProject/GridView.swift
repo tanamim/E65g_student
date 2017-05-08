@@ -144,5 +144,34 @@ import UIKit
         let position = (row: Int(row), col: Int(col))
         return position
     }
+
+    
+    // Help to draw grid from config position list
+    func drawGrid(_ state: CellState, _ list: [[Int]]) -> Void {
+        list.forEach { self.grid[$0[0], $0[1]] = state }
+    }
+
+    // Generate current state's config with "New Config"
+    func getConfig() -> Config {
+        var config = Config(name: "New Config", size: self.size, alive: [], born: [], died: [])
+        
+        (0 ..< self.size).forEach { i in
+            (0 ..< self.size).forEach { j in
+                switch self.grid[i,j] {
+                case .alive: config.alive += [[i, j]]
+                case .born:  config.born  += [[i, j]]
+                case .died:  config.died  += [[i, j]]
+                case .empty: ()
+                }
+            }
+        }
+        return config
+    }
+    
+    
+//    // Returns cell state's positoin list to update config
+//    func getStateList(_ state: CellState) -> [[Int]] {
+//        return [[]]
+//    }
 }
 

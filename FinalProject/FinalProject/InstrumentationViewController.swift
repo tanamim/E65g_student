@@ -167,8 +167,9 @@ var sectionHeaders = ["User Saved", "Originals"]
 
 struct Config {
     var name:  String
-    var born:  [[Int]]
+    var size:  Int
     var alive: [[Int]]
+    var born:  [[Int]]
     var died:  [[Int]]
 }
 
@@ -176,8 +177,9 @@ var userData: [Config] = [
     // user config
     Config(
         name: "Test Data",
-        born:  [[0,0], [0,1]],
+        size:  6,
         alive: [[1,0], [1,1]],
+        born:  [[0,0], [0,1]],
         died:  [[2,0], [2,1]]
     )
 ]
@@ -186,20 +188,23 @@ var networkData: [Config] = [
     // network config - from JSON
     Config(
         name: "Apple",
-        born:  [[0,0], [0,1]],
+        size:  8,
         alive: [[1,0], [1,1]],
+        born:  [[0,0], [0,1]],
         died:  [[2,0], [2,1]]
     ),
     Config(
         name: "Banana",
-        born:  [[10,0], [10,1]],
+        size:  16,
         alive: [[11,0], [11,1]],
+        born:  [[10,0], [10,1]],
         died:  [[12,0], [12,1]]
     ),
     Config(
         name: "Cherry",
-        born:  [[20,0], [20,1]],
+        size:  40,
         alive: [[21,0], [21,1]],
+        born:  [[20,0], [20,1]],
         died:  [[22,0], [22,1]]
     )
 ]
@@ -254,10 +259,9 @@ extension InstrumentationViewController: UITableViewDelegate, UITableViewDataSou
         // segue is triggered by '+'
         if segue.identifier == "addConfig" {
             if let vc = segue.destination as? GridEditorViewController {
-                vc.configValue = "New Config"
+                vc.configValue = Config(name: "New Config", size: 10, alive: [], born: [], died: [])
                 vc.saveClosure = { newValue in
-                    let newConfig = Config(name: newValue, born: [], alive: [], died: [])
-                    data[0] = [newConfig] + data[0]  // add a new item
+                    data[0] = [newValue] + data[0]  // add a new item
                     self.tableView.reloadData()
                     let indexPath = IndexPath(row: 0, section: 0)  // select the new item
                     self.tableView.selectRow(at: indexPath, animated: true, scrollPosition: UITableViewScrollPosition.top)
@@ -266,13 +270,12 @@ extension InstrumentationViewController: UITableViewDelegate, UITableViewDataSou
         } else {  // segue is triggerd by a table cell
             let indexPath = tableView.indexPathForSelectedRow
             if let indexPath = indexPath {
-                let configValue = data[indexPath.section][indexPath.row].name
-                print("selected is ", configValue)
+                let configValue = data[indexPath.section][indexPath.row]
+                print("selected is ", configValue.name)
                 if let vc = segue.destination as? GridEditorViewController {
                     vc.configValue = configValue
                     vc.saveClosure = { newValue in
-                        let newConfig = Config(name: newValue, born: [], alive: [], died: [])
-                        data[indexPath.section][indexPath.row] = newConfig
+                        data[indexPath.section][indexPath.row] = newValue
                         self.tableView.reloadData()
                         self.tableView.selectRow(at: indexPath, animated: true, scrollPosition: UITableViewScrollPosition.none)
                     }

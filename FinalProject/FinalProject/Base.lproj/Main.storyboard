@@ -310,14 +310,6 @@
                                 <color key="textColor" red="0.50196081400000003" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Ym-jb-aQt">
-                                <rect key="frame" x="145" y="452" width="30" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Test"/>
-                                <connections>
-                                    <action selector="testButtonPressed:" destination="TXq-J7-YCA" eventType="touchUpInside" id="8zz-QH-zg9"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.35686274509999999" green="0.80000000000000004" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
@@ -330,7 +322,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Grid Editor" id="8YK-Os-OII">
-                        <barButtonItem key="leftBarButtonItem" title="Item" systemItem="cancel" id="QBa-SI-vAc">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="QBa-SI-vAc">
                             <connections>
                                 <action selector="cancel:" destination="TXq-J7-YCA" id="2RK-Pb-RKR"/>
                             </connections>
