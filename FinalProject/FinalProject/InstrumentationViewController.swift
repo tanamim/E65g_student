@@ -41,6 +41,26 @@ class InstrumentationViewController: UIViewController, UITextFieldDelegate {
         StandardEngine.engine.isRefresh = false
         StandardEngine.engine.timerInterval = 0.0
     }
+
+    // even after saving, let user to configure grid size and deselect
+    internal func deselectTable() -> Void {
+        appDelegate.currentConfig = Config(
+            name: "Config Name",
+            size:  engine.rows,
+            alive: [],
+            born:  [],
+            died:  []
+        )
+        // notification [GridUpdate] pualisher to tell Instrumentation to redraw info
+        print("Grid Export to Simulation!")
+        let nc = NotificationCenter.default
+        let name = Notification.Name(rawValue: "GridExport")
+        let n = Notification(name: name, object: nil, userInfo: ["InstrumentationViewController": self])
+        nc.post(n)
+
+        guard let indexPath = tableView.indexPathForSelectedRow else { return }
+        tableView.deselectRow(at: indexPath, animated: false)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -101,13 +121,15 @@ class InstrumentationViewController: UIViewController, UITextFieldDelegate {
     // Stepper Event Handling
     @IBAction func step(_ sender: UIStepper) {
         let size = Int(sender.value)
+        appDelegate.currentConfig?.size = size
         engine.rows = size
         engine.cols = size
+        engine.renew()
         drawInst()
         print("size is " + String(engine.rows))
 
-        engine.renew()
-//        engine.statPublish()
+        self.deselectTable()  // DEBUG
+        var _ = engine.step()
     }
     
 
@@ -140,6 +162,7 @@ class InstrumentationViewController: UIViewController, UITextFieldDelegate {
         engine.renew()
     }
     
+    
     //MARK: AlertController Handling
     func showErrorAlert(withMessage msg:String, action: (() -> Void)? ) {
         let alert = UIAlertController(
@@ -161,6 +184,8 @@ class InstrumentationViewController: UIViewController, UITextFieldDelegate {
 
 
 
+
+
 // Data Model Development //
 
 
@@ -174,16 +199,16 @@ struct Config {
     var died:  [[Int]]
 }
 
-var userData: [Config] = [
-    // user config
-    Config(
-        name: "Test Data",
-        size:  6,
-        alive: [[1,0], [1,1]],
-        born:  [[0,0], [0,1]],
-        died:  [[2,0], [2,1]]
-    )
-]
+//var userData: [Config] = [
+//    // user config
+//    Config(
+//        name: "Test Data",
+//        size:  6,
+//        alive: [[1,0], [1,1]],
+//        born:  [[0,0], [0,1]],
+//        died:  [[2,0], [2,1]]
+//    )
+//]
 
 var networkData: [Config] = [
     // network config - from JSON
@@ -209,6 +234,9 @@ var networkData: [Config] = [
         died:  [[22,0], [22,1]]
     )
 ]
+
+let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
+let userData = appDelegate.userData
 
 // Master Table Data
 var data = [userData, networkData]
@@ -256,7 +284,6 @@ extension InstrumentationViewController: UITableViewDelegate, UITableViewDataSou
         }
     }
     
-    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // segue is triggered by '+'
         if segue.identifier == "addConfig" {
@@ -280,13 +307,8 @@ extension InstrumentationViewController: UITableViewDelegate, UITableViewDataSou
                         data[indexPath.section][indexPath.row] = newValue
                         self.tableView.reloadData()
                         self.tableView.selectRow(at: indexPath, animated: true, scrollPosition: UITableViewScrollPosition.none)
-
                         // redraw info
-//                        self.appDelegate.currentConfig = newValue
-//                        self.engine.rows = newValue.size
-//                        self.engine.cols = newValue.size
                         self.drawInst()
-//                        self.engine.renew()
                     }
                 }
             }

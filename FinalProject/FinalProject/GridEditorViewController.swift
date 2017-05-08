@@ -21,9 +21,7 @@ class GridEditorViewController: UIViewController {
     
     func getGridSize(_ config: Config) -> Int {
         let joined = config.alive + config.born + config.died
-        print(joined)  // DEBUG
         let maxVal = joined.reduce(0, {max($0, $1[0], $1[1])})
-        print(maxVal)  // DEBUG
         return maxVal * 2
     }
 
@@ -76,7 +74,6 @@ class GridEditorViewController: UIViewController {
             newValue.name = configName.text!  // change name from "New Config"
             saveClosure(newValue)
             self.navigationController!.popViewController(animated: true)
-//            StandardEngine.engine.rows = newValue.size
 
             // update global variable
             appDelegate.currentConfig = newValue

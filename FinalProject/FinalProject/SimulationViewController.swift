@@ -51,14 +51,13 @@ class SimulationViewController: UIViewController, EngineDelegate, UITabBarDelega
 
         // for the first time
         drawConfigCell()
-        sizeLabel.text = "Size: \(engine.rows) x \(engine.cols)"
+        sizeLabel.text = "Size: \(gridView.size) x \(gridView.size)"
         print("Now the size is \(gridView.size)")
     }
 
     
     func engineDidUpdate(withGrid: GridProtocol) {
 
-//        if (gridView.size != withGrid.size.rows) {
         if (isFirstUpdate) {
             gridView.size = withGrid.size.rows
             self.isFirstUpdate = false
@@ -70,7 +69,7 @@ class SimulationViewController: UIViewController, EngineDelegate, UITabBarDelega
         engine.grid = gridView.grid           // sync with engine to publish stat
         engine.statPublish()
         
-        self.sizeLabel.text = "Size: \(withGrid.size.rows) x \(withGrid.size.cols)"  // draw info
+        self.sizeLabel.text = "Size: \(gridView.size) x \(gridView.size)"  // draw info
     }
 
 

@@ -13,12 +13,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     
-    var currentConfig: Config?
+    // save and load user data
+    let defaults = UserDefaults.standard
     
-    
+    // keep track of the current config here
+    var currentConfig: Config?  // struct Config is defined in InstrumentationViewController
+
+    //  list of user config
+    var userData: [Config] = [
+        Config(
+            name: "Test Data",
+            size:  6,
+            alive: [[1,0], [1,1]],
+            born:  [[0,0], [0,1]],
+            died:  [[2,0], [2,1]]
+        )
+    ]
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
  
+        // default setting if no user saved data
         currentConfig = Config(
             name: "Config Name",
             size:  10,
@@ -26,6 +40,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             born:  [],
             died:  []
         )
+
+        
         
         return true
     }
