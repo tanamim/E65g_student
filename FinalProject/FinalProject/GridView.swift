@@ -27,10 +27,10 @@ import UIKit
     // Assignment3 Part3: These values are also assigned in the storyboard as per the spec
     @IBInspectable var livingColor: UIColor = UIColor(red:0.09, green:0.63, blue:0.52, alpha:1.0)  // Greensea
     @IBInspectable var bornColor:   UIColor = UIColor(red:0.09, green:0.63, blue:0.52, alpha:0.6)
-    @IBInspectable var emptyColor:  UIColor = UIColor.darkGray
+    @IBInspectable var emptyColor:  UIColor = UIColor.darkGray.withAlphaComponent(0.3)
     @IBInspectable var diedColor:   UIColor = UIColor.darkGray.withAlphaComponent(0.6)
-    @IBInspectable var gridColor:   UIColor = UIColor.black
-    @IBInspectable var gridWidth:   CGFloat = CGFloat(2.0)
+    @IBInspectable var gridColor:   UIColor = UIColor.darkGray
+    @IBInspectable var gridWidth:   CGFloat = CGFloat(1.0)
     
     var grid = StandardEngine.engine.grid
     
